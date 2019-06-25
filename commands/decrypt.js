@@ -20,7 +20,10 @@ module.exports = {
 	async execute(client, message, args) {
 		// Set our values
 		const cipherText = args[0];
-		const passCode = args.slice[1].join(' ');
+		let passCode = args.slice[1];
+
+		// If pass code contains more then 1 word, join them
+		if (passCode.length > 1) passCode = passCode.join(' ');
 
 		// Decrypt the provided arguments
 		const decryptedText = CryptoJS.AES.decrypt(cipherText, passCode);
