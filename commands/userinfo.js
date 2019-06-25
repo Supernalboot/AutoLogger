@@ -27,11 +27,12 @@ module.exports = {
 		const embed = new Discord.RichEmbed()
 			.setTitle(`This is **${target.username}**'s information`)
 			.setThumbnail(target.avatarURL)
-			.addField("Full Username", target.tag, true)
+			.addField("Full Username", target.tag)
 			.addField("ID", target.id, true)
 			.addField("Nickname", nickname, true)
-			.addField("Roles", guildTarget.roles.toString())
-			.addField("Joined At", `${time(guildTarget.joinedAt).format('ll')} (${time(guildTarget.joinedAt).fromNow()})`, true)
+			.addField("Roles", guildTarget.roles.join('\n'))
+			.addField("Permissions", guildTarget.permissions.join('\n'), true)
+			.addField("Joined At", `${time(guildTarget.joinedAt).format('ll')} (${time(guildTarget.joinedAt).fromNow()})`)
 			.addField("Account Created", `${time(target.createdAt).format('ll')} (${time(target.createdAt).fromNow()})`, true)
 			.setColor(client.color.basic('blue'));
 		return message.channel.send(embed);
