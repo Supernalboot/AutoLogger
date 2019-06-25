@@ -63,15 +63,15 @@ process.on('unhandledRejection', error => {
 	const unhandleEmbed = new Discord.RichEmbed()
 		.setAuthor('Caught an unhandledRejection')
 		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
-		.setTimestamp(Date.now())
+		.setTimestamp(Date.now());
 	client.channels.get('532095261577707531').send(unhandleEmbed);
 });
-// uncaughException logging
+// uncaught Exception logging
 process.on('uncaughtException', error => {
 	const uncaughtEmbed = new Discord.RichEmbed()
 		.setAuthor('Caught an uncaughtException')
 		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
-		.setTimestamp(Date.now())
+		.setTimestamp(Date.now());
 	client.channels.get('532095261577707531').send(uncaughtEmbed);
 });
 // Error logging
@@ -79,7 +79,7 @@ client.on('error', error => {
 	const errorEmbed = new Discord.RichEmbed()
 		.setAuthor('Caught an Error')
 		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
-		.setTimestamp(Date.now())
+		.setTimestamp(Date.now());
 	client.channels.get('532095261577707531').send(errorEmbed);
 });
 
