@@ -1,4 +1,5 @@
 config.json
+knexfile.js
 
 ### Node ###
 # Logs

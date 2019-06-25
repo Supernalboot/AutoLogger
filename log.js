@@ -37,7 +37,7 @@ require('./tasks/events.js')(client);
 const { token } = require('./config.json');
 
 /** - - Storage - - */
-// TBD
+client.knex = require('knex')(require('./knexfile.js')['server']);
 
 /** - - Eval Command - - */
 const clean = text => { if (typeof (text) === 'string') {return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203));} else {return text;} };

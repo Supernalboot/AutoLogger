@@ -3,7 +3,10 @@ module.exports = async (client, message) => {
 	/** - - Command Parser - - */
 	if (!message.author.bot) {
 		// Prefix
-		const prefix = 'log!';
+		let prefix;
+		if (message.guild) {
+			try { await client.knex.from('guilddata').where('guildid', message.guild.id).select('prefix').then(async function(output) { prefix = await output[0].prefix; }); } catch (err) { prefix = 'o!'; }
+		} else { prefix = ''; }
 		// Global Variables
 		let command;
 		let args;
