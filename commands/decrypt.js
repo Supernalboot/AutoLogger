@@ -22,7 +22,7 @@ module.exports = {
 		if (message.deletable) message.delete();
 
 		// Variables
-		let msg; let code; let decryptionBytes;
+		let msg; let code; let decryption; let decryptionBytes;
 
 		// Send messaging asking for message to encrypt
 		await message.author.send('**Ready to decrypt!** What message would you like to decrypt?\n*Just type it out and send it.*').then(async (dm) => {
@@ -52,10 +52,9 @@ module.exports = {
 		// Encrypt our message
 		try {
 			decryptionBytes = CryptoJS.AES.decrypt(msg, code);
+			// Turn the bytes into readable text
+			decryption = decryptionBytes.toString(CryptoJS.enc.Utf8);
 		} catch(err) { return message.author.send('There was a problem decrypting your message, please check the encryption and key and try again.'); }
-
-		// Turn the bytes into readable text
-		const decryption = decryptionBytes.toString(CryptoJS.enc.Utf8);
 
 		// Create our discord embed
 		const embed = new Discord.RichEmbed()
