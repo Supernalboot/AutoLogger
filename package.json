@@ -1,0 +1,15 @@
+{
+  "name": "logger",
+  "version": "0.0.1",
+  "description": "An auto loggin and antispam bot",
+  "main": "log.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tyrdle",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "moment": "^2.23.0"
+  }
+}
