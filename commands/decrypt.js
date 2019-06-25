@@ -37,8 +37,11 @@ module.exports = {
 			passCode = passCode.toString();
 		}
 
-		// Decrypt the provided arguments
-		const decryptedText = CryptoJS.AES.decrypt(cipherText, passCode);
+		// Decrypt the provided arguments into bytes
+		const bytes = CryptoJS.AES.decrypt(cipherText, passCode);
+
+		// Turn the bytes into readable text
+		const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
 
 		// Create our discord embed
 		const embed = new Discord.RichEmbed()
