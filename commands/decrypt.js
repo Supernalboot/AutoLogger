@@ -54,15 +54,15 @@ module.exports = {
 			decryptionBytes = CryptoJS.AES.decrypt(msg, code);
 			// Turn the bytes into readable text
 			decryption = decryptionBytes.toString(CryptoJS.enc.Utf8);
+
+			// Create our discord embed
+			const embed = new Discord.RichEmbed()
+				.addField('Decrypted Message', decryption)
+				.setColor(client.color.basic('yellow'));
+
+			// Send our Encrypted message
+			return message.author.send(embed);
 		} catch(err) { return message.author.send('There was a problem decrypting your message, please check the encryption and key and try again.'); }
-
-		// Create our discord embed
-		const embed = new Discord.RichEmbed()
-			.addField('Decrypted Message', decryption)
-			.setColor(client.color.basic('yellow'));
-
-		// Send our Encrypted message
-		return message.author.send(embed);
 
 	},
 };
