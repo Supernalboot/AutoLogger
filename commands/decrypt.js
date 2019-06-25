@@ -21,6 +21,9 @@ module.exports = {
 		// Delete command message if given permission
 		if (message.deletable) message.delete();
 
+		// Variables
+		let msg; let code;
+
 		// Send messaging asking for message to encrypt
 		await message.author.send('**Ready to decrypt!** What message would you like to decrypt?\n*Just type it out and send it.*').then(async (dm) => {
 			// Check if already in DMs
@@ -29,7 +32,7 @@ module.exports = {
 			// Await a reply
 			msgs = await dm.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
 			// Save msg in a variable
-			const msg = msgs.first().content;
+			msg = msgs.first().content;
 			// Delete original messages
 			dm.delete();
 
@@ -38,7 +41,7 @@ module.exports = {
 			// Await a reply
 			codes = await dm.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
 			// Save msg in a variable
-			const code = codes.first().content;
+			code = codes.first().content;
 			// Delete original message
 			end.delete();
 		}).catch(() => {
