@@ -29,11 +29,10 @@ module.exports = {
 			.setThumbnail(target.avatarURL)
 			.addField("Full Username", target.tag, true)
 			.addField("ID", target.id, true)
-			.addField("Nickname", nickname)
+			.addField("Nickname", nickname, true)
 			.addField("Roles", guildTarget.roles.map(role => `<@&${role.id}>`).join(', '), true)
-			.addField("Permissions", guildTarget.permissions.toArray().map(perm => perm.replace(/^\w/, c => c.toUpperCase())).join(', ').toLowerCase().replace('_', ' '))
 			.addField("Joined At", `${time(guildTarget.joinedAt).format('ll')} (${time(guildTarget.joinedAt).fromNow()})`, true)
-			.addField("Account Created", `${time(target.createdAt).format('ll')} (${time(target.createdAt).fromNow()})`)
+			.addField("Account Created", `${time(target.createdAt).format('ll')} (${time(target.createdAt).fromNow()})`, true)
 			.setColor(client.color.basic('blue'));
 		return message.channel.send(embed);
 	},
