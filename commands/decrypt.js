@@ -8,7 +8,7 @@ module.exports = {
 	desc: 'Decrypt a message with a pass code to view content',
 	aliases: ['decry'],
 	usage: '',
-	args: true,
+	args: false,
 	guildOnly: false,
 	ownerOnly: false,
 	group: 'crypto',
