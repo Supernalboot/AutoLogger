@@ -1,9 +1,3 @@
-/*
- * Copyright (C) 2019  Joshua McCrystal & Dimitri Lambrou
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Written by Joshua McCrystal <joshua.mccrystal@hotmail.com>, 25/06/2019
-*/
-
 /** - - Packages - - */
 const fs = require('fs');
 const Discord = require('discord.js');
@@ -18,6 +12,10 @@ const client = new Discord.Client({
 	messageSweepInterval: 3600,
 	fetchAllMembers: true,
 });
+
+/** - - Utilities - - */
+const Color = require('./utils/color');
+client.color = new Color();
 
 /** - - Commands - - */
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -35,6 +33,7 @@ for (const file of commandFiles) {
 } console.log(`>>> Loaded ${commandFiles.length} commands! <<<`);
 
 /** - - Requirements - - */
+require('./tasks/events.js')(client);
 const { token } = require('./config.json');
 
 /** - - Storage - - */
@@ -63,7 +62,8 @@ process.on('unhandledRejection', error => {
 	const unhandleEmbed = new Discord.RichEmbed()
 		.setAuthor('Caught an unhandledRejection')
 		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
-		.setTimestamp(Date.now());
+		.setTimestamp(Date.now())
+		.setColor(client.color.basic('red'));
 	client.channels.get('532095261577707531').send(unhandleEmbed);
 });
 // uncaught Exception logging
@@ -71,7 +71,8 @@ process.on('uncaughtException', error => {
 	const uncaughtEmbed = new Discord.RichEmbed()
 		.setAuthor('Caught an uncaughtException')
 		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
-		.setTimestamp(Date.now());
+		.setTimestamp(Date.now())
+		.setColor(client.color.basic('red'));
 	client.channels.get('532095261577707531').send(uncaughtEmbed);
 });
 // Error logging
@@ -79,7 +80,8 @@ client.on('error', error => {
 	const errorEmbed = new Discord.RichEmbed()
 		.setAuthor('Caught an Error')
 		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
-		.setTimestamp(Date.now());
+		.setTimestamp(Date.now())
+		.setColor(client.color.basic('red'));
 	client.channels.get('532095261577707531').send(errorEmbed);
 });
 
