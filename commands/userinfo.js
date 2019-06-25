@@ -31,8 +31,8 @@ module.exports = {
 			.addField("ID", target.id, true)
 			.addField("Nickname", nickname, true)
 			.addField("Roles", guildTarget.roles.toString())
-			.addField("Joined At", guildTarget.joinedAt.format('ll'))
-			.addField("Account Created", target.createdAt.format('ll'))
+			.addField("Joined At", time(guildTarget.joinedAt).format('ll'))
+			.addField("Account Created", time(target.createdAt).format('ll'))
 			.setColor(client.color.basic('blue'));
 		return message.channel.send(embed);
 	},
