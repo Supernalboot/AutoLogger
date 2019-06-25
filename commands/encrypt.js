@@ -21,10 +21,8 @@ module.exports = {
 		// Delete command message if given permission
 		if (message.deletable) message.delete();
 
-		// Set variable for users DMs
-		const channel = message.author.createDM();
 		// Send messaging asking for message to encrypt
-		const start = await channel.send('**Ready to encrypt!** What message would you like to encrypt?\n*Just type it out and send it in this channel*').then(() => {
+		const start = await message.author.send('**Ready to encrypt!** What message would you like to encrypt?\n*Just type it out and send it in this channel*').then(() => {
 			// Check if already in DMs
 			if (message.channel.type === 'dm') return;
 			message.reply(' I\'ve sent you a DM with all my commands!');
@@ -33,7 +31,7 @@ module.exports = {
 			return message.reply(' it seems like I can\'t DM you! Do you have DMs disabled?');
 		});
 		// Await a reply
-		msgs = await channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
+		msgs = await message.author.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
 		// Save msg in a variable
 		const msg = msgs.first().content;
 		// Delete original messages
@@ -41,9 +39,9 @@ module.exports = {
 		start.delete();
 
 		// Send messaging asking for the key to encryption
-		const end = await channel.send('**Got it!** What is the key to this message?\n*Key can be any ASCII characters up to 32 long. e.g. 143fg34h5g2 or secret50key*');
+		const end = await message.author.send('**Got it!** What is the key to this message?\n*Key can be any ASCII characters up to 32 long. e.g. 143fg34h5g2 or secret50key*');
 		// Await a reply
-		codes = await channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
+		codes = await message.author.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
 		// Save msg in a variable
 		const code = codes.first().content;
 		// Delete original message
@@ -62,6 +60,6 @@ module.exports = {
 			.setColor(client.color.basic('yellow'));
 
 		// Send our Encrypted message
-		return channel.send(embed);
+		return message.author.send(embed);
 	},
 };
