@@ -31,7 +31,6 @@ module.exports = {
 			// Save msg in a variable
 			const msg = msgs.first().content;
 			// Delete original messages
-			msgs.first().delete();
 			dm.delete();
 
 			// Send messaging asking for the key to encryption
@@ -41,7 +40,6 @@ module.exports = {
 			// Save msg in a variable
 			const code = codes.first().content;
 			// Delete original message
-			codes.first().delete();
 			end.delete();
 
 			// Encrypt our message
@@ -50,7 +48,6 @@ module.exports = {
 			// Create our discord embed
 			const embed = new Discord.RichEmbed()
 				.setTitle('Message Encryption')
-				.setDescription(`**Original Message**\n${msg}`)
 				.addField('Encrypted Message', encryption)
 				.setFooter(`Key: ${code}`)
 				.setColor(client.color.basic('yellow'));
