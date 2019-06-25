@@ -24,7 +24,14 @@ module.exports = {
 		// Set variable for users DMs
 		const channel = message.author.createDM();
 		// Send messaging asking for message to encrypt
-		const start = await channel.send('**Ready to encrypt!** What message would you like to encrypt?\n*Just type it out and send it in this channel*');
+		const start = await channel.send('**Ready to encrypt!** What message would you like to encrypt?\n*Just type it out and send it in this channel*').then(() => {
+			// Check if already in DMs
+			if (message.channel.type === 'dm') return;
+			message.reply(' I\'ve sent you a DM with all my commands!');
+		}).catch(() => {
+			// If DMs fail let them know
+			return message.reply(' it seems like I can\'t DM you! Do you have DMs disabled?');
+		});
 		// Await a reply
 		msgs = await channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
 		// Save msg in a variable
