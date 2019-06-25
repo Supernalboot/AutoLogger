@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-require('moment');
+const time = require('moment');
 
 module.exports = {
 	name: 'userinfo',
