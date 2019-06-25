@@ -47,7 +47,7 @@ module.exports = {
 
 		// Create our discord embed
 		const embed = new Discord.RichEmbed()
-			.setThumbnail(bot.user.avatarURL)
+			.setThumbnail(client.user.avatarURL)
 			.setTitle('Message Encryption')
 			.addBlankField()
 			.addField('Encrypted Message', cipherText)
