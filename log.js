@@ -64,7 +64,7 @@ process.on('unhandledRejection', error => {
 		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('red'));
-	client.channels.get('532095261577707531').send(unhandleEmbed);
+	client.channels.get('592845625209389069').send(unhandleEmbed);
 });
 // uncaught Exception logging
 process.on('uncaughtException', error => {
@@ -73,7 +73,7 @@ process.on('uncaughtException', error => {
 		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('red'));
-	client.channels.get('532095261577707531').send(uncaughtEmbed);
+	client.channels.get('592845625209389069').send(uncaughtEmbed);
 });
 // Error logging
 client.on('error', error => {
@@ -82,7 +82,7 @@ client.on('error', error => {
 		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('red'));
-	client.channels.get('532095261577707531').send(errorEmbed);
+	client.channels.get('592845625209389069').send(errorEmbed);
 });
 
 /** - - Client Login - - */
