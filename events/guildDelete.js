@@ -13,7 +13,7 @@ module.exports = async (client, guild) => {
 **Member Count:** \`${guild.memberCount}\` - **Humans:** \`${humans}\` - **Bots:** \`${bots}\`
 **Joined:** ${time(client.user.joinedAt).fromNow()}`)
 		.setThumbnail(guild.iconURL)
-		.setColor(client.color.neon('red'))
+		.setColor(client.color.basic('red'))
 		.setFooter(`Total ${client.guilds.size}`, client.user.displayAvatarURL)
 		.setTimestamp(Date.now());
 	client.channels.get('592845625209389069').send(guildLeaveEmbed);
