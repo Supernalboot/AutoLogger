@@ -22,7 +22,7 @@ module.exports = {
 		if (message.deletable) message.delete();
 
 		// Send messaging asking for message to encrypt
-		await message.author.send('**Ready to encrypt!** What message would you like to encrypt?\n*Just type it out and send it in this channel*').then(async (dm) => {
+		await message.author.send('**Ready to encrypt!** What message would you like to encrypt?\n*Just type it out and send.*').then(async (dm) => {
 			// Check if already in DMs
 			if (message.channel.type === 'dm') return;
 			message.reply(' I\'ve sent you a DM!');

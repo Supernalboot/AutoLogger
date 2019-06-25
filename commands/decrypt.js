@@ -17,38 +17,45 @@ module.exports = {
 	cooldown: 2,
 
 	/** - - Code to Run - - */
-	async execute(client, message, args) {
-		// Set our values
-		const cipherText = args[0];
-		let passCode = args.slice(2);
+	async execute(client, message) {
+		// Delete command message if given permission
+		if (message.deletable) message.delete();
 
-		// Check if a pass code was not provided
-		if (!passCode) {
-			// Return a message if no pass code was provided
-			return message.channel.send('No pass code was provided');
+		// Send messaging asking for message to encrypt
+		await message.author.send('**Ready to decrypt!** What message would you like to decrypt?\n*Just type it out and send it.*').then(async (dm) => {
+			// Check if already in DMs
+			if (message.channel.type === 'dm') return;
+			message.reply(' I\'ve sent you a DM!');
+			// Await a reply
+			msgs = await dm.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
+			// Save msg in a variable
+			const msg = msgs.first().content;
+			// Delete original messages
+			dm.delete();
 
-		} else if (passCode.length > 1) {
-			// Check if the pass code is more than one word
-			passCode = passCode.join(' ');
+			// Send messaging asking for the key to encryption
+			const end = await message.author.send('**Got it!** What is the key to this message?\n*The person who sent the message should have provided one.*');
+			// Await a reply
+			codes = await dm.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
+			// Save msg in a variable
+			const code = codes.first().content;
+			// Delete original message
+			end.delete();
 
-		}
-		// else just convert to a string
-		else {
-			passCode = passCode.toString();
-		}
+			// Encrypt our message
+			const decryption = CryptoJS.AES.decrypt(msg, code);
 
-		// Decrypt the provided arguments
-		const decryptedText = CryptoJS.AES.decrypt(cipherText, passCode);
+			// Create our discord embed
+			const embed = new Discord.RichEmbed()
+				.addField('Decrypted Message', decryption)
+				.setColor(client.color.basic('yellow'));
 
-		// Create our discord embed
-		const embed = new Discord.RichEmbed()
-			.setTitle('Message Decryption')
-			.setDescription(`**Original Encrypted Message**\n${cipherText}`)
-			.addField('Decrypted Message', decryptedText)
-			.setFooter(message.author.tag, message.author.displayAvatarURL)
-			.setColor(client.color.basic('orange'));
+			// Send our Encrypted message
+			return message.author.send(embed);
+		}).catch(() => {
+			// If DMs fail let them know
+			return message.reply(' it seems like I can\'t DM you! Do you have DMs disabled?');
+		});
 
-		// Send our Encrypted message
-		return message.channel.send(embed);
 	},
 };
