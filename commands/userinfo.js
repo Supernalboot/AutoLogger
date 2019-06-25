@@ -26,10 +26,12 @@ module.exports = {
 			.setDescription("This is the user's info!")
 			.setColor()
 			.setThumbnail(target.avatarURL)
-			.addField("Full Username", target.tag)
-			.addField("Nickname", nickname)
-			.addField("ID", target.id)
-			.addField("Roles", "<UNDEFINED>")
+			.addField("Nickname", nickname, true)
+			.addField("ID", `\`${target.id}\``, true)
+			.addField("Roles", "```<UNDEFINED>```")
+			.addBlankField()
+			.addField("Presence", " ")
+			.addBlankField()
 			.addField("Created At", target.createdAt)
 			.addField("Joined At", guildTarget.joinedAt);
 
