@@ -43,7 +43,10 @@ module.exports = {
 			end.delete();
 
 			// Encrypt our message
-			const decryption = CryptoJS.AES.decrypt(msg, code);
+			const decryptionBytes = CryptoJS.AES.decrypt(msg, code);
+
+			// Turn the bytes into readable text
+			const decryption = decryptionBytes.toString(CryptoJS.enc.Utf8);
 
 			// Create our discord embed
 			const embed = new Discord.RichEmbed()
