@@ -1,8 +1,10 @@
+Discord = require('discord.js');
+
 module.exports = {
-	name: 'name',
-	info: 'info about command',
-	desc: 'longer version info for help command here',
-	aliases: ['aliases'],
+	name: 'userinfo',
+	info: 'Info about User',
+	desc: 'Shows a users information',
+	aliases: [''],
 	usage: '',
 	args: false,
 	guildOnly: true,
