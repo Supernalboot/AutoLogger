@@ -1,4 +1,5 @@
-Discord = require('discord.js');
+const Discord = require('discord.js');
+require('moment');
 
 module.exports = {
 	name: 'userinfo',
@@ -15,24 +16,24 @@ module.exports = {
 	cooldown: 2,
 
 	/** - - Code to Run - - */
-	async execute(client, message, args) {
+	async execute(client, message) {
+		// Set Variables
 		const target = message.mentions.users.first() || message.author;
 		const guildTarget = message.mentions.members.first() || message.member;
 		let nickname = message.member.nickname;
 		if (!nickname) nickname = "No guild nickname.";
 
+		// Send embed
 		const embed = new Discord.RichEmbed()
-			.setAuthor(target.tag)
-			.setDescription("This is the user's info!")
-			.setColor()
+			.setTitle(`This is **${target.username}'s information`)
 			.setThumbnail(target.avatarURL)
-			.addField("Full Username", target.tag)
-			.addField("Nickname", nickname)
-			.addField("ID", target.id)
-			.addField("Roles", "<UNDEFINED>")
-			.addField("Created At", target.createdAt)
-			.addField("Joined At", guildTarget.joinedAt);
-
-		message.channel.send(embed);
+			.addField("Full Username", target.tag, true)
+			.addField("ID", target.id, true)
+			.addField("Nickname", nickname, true)
+			.addField("Roles", guildTarget.roles.toString())
+			.addField("Joined At", guildTarget.joinedAt.format('ll'))
+			.addField("Account Created", target.createdAt.format('ll'))
+			.setColor(client.color.basic('blue'));
+		return message.channel.send(embed);
 	},
 };
