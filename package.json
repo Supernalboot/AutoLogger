@@ -11,6 +11,7 @@
   "dependencies": {
     "discord.js": "^11.4.2",
     "moment": "^2.23.0",
+    "knex": "^0.16.3",
     "pg": "^7.8.1"
   }
 }
