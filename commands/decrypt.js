@@ -43,7 +43,7 @@ module.exports = {
 		// Create our discord embed
 		const embed = new Discord.RichEmbed()
 			.setTitle('Message Decryption')
-			.addDescription(`**Original Encrypted Message**\n${cipherText}`)
+			.setDescription(`**Original Encrypted Message**\n${cipherText}`)
 			.addField('Decrypted Message', decryptedText)
 			.setFooter(message.user.tag, message.user.displayAvatarURL)
 			.setColor(client.color.basic('orange'));

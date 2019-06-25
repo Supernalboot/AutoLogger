@@ -36,9 +36,9 @@ module.exports = {
 		// Await a reply
 		codes = await message.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
 		// Save msg in a variable
-		const code = msgs.first().content;
+		const code = codes.first().content;
 		// Delete original message
-		msgs.first().delete();
+		codes.first().delete();
 		end.delete();
 
 		// Encrypt our message
@@ -47,7 +47,7 @@ module.exports = {
 		// Create our discord embed
 		const embed = new Discord.RichEmbed()
 			.setTitle('Message Encryption')
-			.addDescription(`**Original Message**\n${msg}`)
+			.setDescription(`**Original Message**\n${msg}`)
 			.addField('Encrypted Message', encryption)
 			.setFooter(message.user.tag, message.user.displayAvatarURL)
 			.setColor(client.color.basic('yellow'));
