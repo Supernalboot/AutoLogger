@@ -32,7 +32,7 @@ module.exports = {
 		start.delete();
 
 		// Send messaging asking for the key to encryption
-		const end = await message.channel.send('**Got it!** What is the key to this message?\n*Key can be any ASCII characters up to 32 long. e.g. 143fg34h5g2 or secret50key*');
+		const end = await message.channel.send('**Got it!** What is the key to this message?\n*Key can be any ASCII characters up to 32 long. e.g. 143fg34h5g2 or secret 50 key*');
 		// Await a reply
 		codes = await message.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
 		// Save msg in a variable
