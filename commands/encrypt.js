@@ -49,7 +49,7 @@ module.exports = {
 			.setTitle('Message Encryption')
 			.setDescription(`**Original Message**\n${msg}`)
 			.addField('Encrypted Message', encryption)
-			.setFooter(message.user.tag, message.user.displayAvatarURL)
+			.setFooter(message.author.tag, message.author.displayAvatarURL)
 			.setColor(client.color.basic('yellow'));
 
 		// Send our Encrypted message

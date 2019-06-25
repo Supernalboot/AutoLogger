@@ -45,7 +45,7 @@ module.exports = {
 			.setTitle('Message Decryption')
 			.setDescription(`**Original Encrypted Message**\n${cipherText}`)
 			.addField('Decrypted Message', decryptedText)
-			.setFooter(message.user.tag, message.user.displayAvatarURL)
+			.setFooter(message.author.tag, message.author.displayAvatarURL)
 			.setColor(client.color.basic('orange'));
 
 		// Send our Encrypted message
