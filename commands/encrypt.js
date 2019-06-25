@@ -11,9 +11,9 @@ module.exports = {
 	args: true,
 	guildOnly: false,
 	ownerOnly: false,
-	group: 'client/moderation/server',
-	perm: 'ADMINISTRATOR',
-	perms: [],
+	group: 'crypto',
+	perm: 'ANY',
+	perms: ['SEND_MESSAGES'],
 	cooldown: 2,
 
 	/** - - Code to Run - - */
