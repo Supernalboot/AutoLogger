@@ -41,24 +41,24 @@ module.exports = {
 			const code = codes.first().content;
 			// Delete original message
 			end.delete();
-
-			// Encrypt our message
-			const decryptionBytes = CryptoJS.AES.decrypt(msg, code);
-
-			// Turn the bytes into readable text
-			const decryption = decryptionBytes.toString(CryptoJS.enc.Utf8);
-
-			// Create our discord embed
-			const embed = new Discord.RichEmbed()
-				.addField('Decrypted Message', decryption)
-				.setColor(client.color.basic('yellow'));
-
-			// Send our Encrypted message
-			return message.author.send(embed);
 		}).catch(() => {
 			// If DMs fail let them know
 			return message.reply(' it seems like I can\'t DM you! Do you have DMs disabled?');
 		});
+
+		// Encrypt our message
+		const decryptionBytes = CryptoJS.AES.decrypt(msg, code).catch(() => { return message.author.send('There was a problem decrypting your message, please check the encryption and key and try again.'); });
+
+		// Turn the bytes into readable text
+		const decryption = decryptionBytes.toString(CryptoJS.enc.Utf8);
+
+		// Create our discord embed
+		const embed = new Discord.RichEmbed()
+			.addField('Decrypted Message', decryption)
+			.setColor(client.color.basic('yellow'));
+
+		// Send our Encrypted message
+		return message.author.send(embed);
 
 	},
 };
