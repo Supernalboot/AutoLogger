@@ -31,7 +31,7 @@ module.exports = {
 			.addField("ID", target.id, true)
 			.addField("Nickname", nickname)
 			.addField("Roles", guildTarget.roles.map(role => `<@&${role.id}>`).join(', '), true)
-			.addField("Permissions", guildTarget.permissions.toArray().join(', '))
+			.addField("Permissions", guildTarget.permissions.toArray().map(perm => perm.replace(/^\w/, c => c.toUpperCase())).join(', ').toLowerCase().replace('_', ' '))
 			.addField("Joined At", `${time(guildTarget.joinedAt).format('ll')} (${time(guildTarget.joinedAt).fromNow()})`, true)
 			.addField("Account Created", `${time(target.createdAt).format('ll')} (${time(target.createdAt).fromNow()})`)
 			.setColor(client.color.basic('blue'));
