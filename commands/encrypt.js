@@ -8,7 +8,7 @@ module.exports = {
 	desc: 'Encrypt a message with a pass code to send to other users',
 	aliases: ['encry'],
 	usage: '',
-	args: true,
+	args: false,
 	guildOnly: false,
 	ownerOnly: false,
 	group: 'crypto',
@@ -17,39 +17,38 @@ module.exports = {
 	cooldown: 2,
 
 	/** - - Code to Run - - */
-	async execute(client, message, args) {
-		// Set our values
-		let iterator = 0;
-		let passCode = '';
+	async execute(client, message) {
+		// Delete command message if given permission
+		if (message.deletable) message.delete();
 
-		// Loop through our array to find our specified symbol
-		for (const element of args) {
-			if (element != ';') { iterator++; } else {
-				// Increase our iterator again to cut out the symbol and then join the message pass code
-				iterator++;
-				passCode = args.slice(iterator).join(' ');
-				break;
-			}
-		}
+		// Send messaging asking for message to encrypt
+		const start = await message.channel.send('**Ready to encrypt!** What message would you like to encrypt?\n*Just type it out and send it in this channel*');
+		// Await a reply
+		msgs = await message.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
+		// Save msg in a variable
+		const msg = msgs.first().content;
+		// Delete original messages
+		msgs.first().delete();
+		start.delete();
 
-		// Check if a pass code is not provided
-		if (!passCode) {
-			return message.channel.send('No pass Code was provided! Did you separate it with a `;`?');
-		}
-
-		// A pass code was provided
-
-		// Set our message
-		const text = args.join(' ');
+		// Send messaging asking for the key to encryption
+		const end = await message.channel.send('**Got it!** What is the key to this message?\n*Key can be any ASCII characters up to 32 long. e.g. 143fg34h5g2 or secret50key*');
+		// Await a reply
+		codes = await message.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
+		// Save msg in a variable
+		const code = msgs.first().content;
+		// Delete original message
+		msgs.first().delete();
+		end.delete();
 
 		// Encrypt our message
-		const cipherText = CryptoJS.AES.encrypt(text, passCode);
+		const encryption = CryptoJS.AES.encrypt(msg, code);
 
 		// Create our discord embed
 		const embed = new Discord.RichEmbed()
 			.setTitle('Message Encryption')
-			.addDescription(`**Original Message**\n${text}`)
-			.addField('Encrypted Message', cipherText)
+			.addDescription(`**Original Message**\n${msg}`)
+			.addField('Encrypted Message', encryption)
 			.setFooter(message.user.tag, message.user.displayAvatarURL)
 			.setColor(client.color.basic('yellow'));
 
