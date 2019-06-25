@@ -27,6 +27,7 @@ module.exports = {
 		const embed = new Discord.RichEmbed()
 			.setTitle(`This is **${target.username}'s information`)
 			.setThumbnail(target.avatarURL)
+<<<<<<< HEAD
 			.addField("Full Username", target.tag, true)
 			.addField("ID", target.id, true)
 			.addField("Nickname", nickname, true)
@@ -35,5 +36,17 @@ module.exports = {
 			.addField("Account Created", target.createdAt.format('ll'))
 			.setColor(client.color.basic('blue'));
 		return message.channel.send(embed);
+=======
+			.addField("Nickname", nickname, true)
+			.addField("ID", `\`${target.id}\``, true)
+			.addField("Roles", "```<UNDEFINED>```")
+			.addBlankField()
+			.addField("Presence", " ")
+			.addBlankField()
+			.addField("Created At", target.createdAt)
+			.addField("Joined At", guildTarget.joinedAt);
+
+		message.channel.send(embed);
+>>>>>>> 05b79bc3111378079f8b69d5f266a9a7329825d8
 	},
 };
