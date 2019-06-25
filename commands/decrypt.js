@@ -23,10 +23,19 @@ module.exports = {
 		let passCode = args.slice(2);
 
 		// Check if a pass code was not provided
-		if (!passCode) return message.channel.send('No pass code was provided');
+		if (!passCode) {
+			// Return a message if no pass code was provided
+			return message.channel.send('No pass code was provided');
 
-		// If pass code contains more then 1 word, join them
-		if (passCode.length > 1) passCode = passCode.join(' ');
+		} else if (passCode.length > 1) {
+			// Check if the pass code is more than one word
+			passCode = passCode.join(' ');
+
+		}
+		// else just convert to a string
+		else {
+			passCode = passCode.toString();
+		}
 
 		// Decrypt the provided arguments
 		const decryptedText = CryptoJS.AES.decrypt(cipherText, passCode);
