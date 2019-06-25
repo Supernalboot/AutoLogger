@@ -66,7 +66,7 @@ process.on('unhandledRejection', error => {
 		.setColor(client.color.basic('red'));
 	client.channels.get('532095261577707531').send(unhandleEmbed);
 });
-// uncaughException logging
+// uncaught Exception logging
 process.on('uncaughtException', error => {
 	const uncaughtEmbed = new Discord.RichEmbed()
 		.setAuthor('Caught an uncaughtException')
