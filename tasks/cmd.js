@@ -61,6 +61,6 @@ module.exports = async (client, message, command, commandName, args, prefix) => 
 			}
 		}
 		catch(err) { console.error(err); message.channel.send(`There was an error trying to execute the \`${commandName}\` command!\nIf problem persists please contact ${client.user.username} Support`); }
-	} catch (err) { client.channels.get('592845625209389069').send(`An error occured during the command handler, here are the details!\n**Guild** ${message.guild.name} (${message.guild.id})\n**Message** ${message.content}\n\`\`\`${err.stack}\`\`\``); }
+	} catch (err) { client.channels.get('592948839636271104').send(`An error occured during the command handler, here are the details!\n**Guild** ${message.guild.name} (${message.guild.id})\n**Message** ${message.content}\n\`\`\`${err.stack}\`\`\``); }
 
 };

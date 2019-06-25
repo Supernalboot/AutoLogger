@@ -9,7 +9,7 @@ module.exports = async (client, guild) => {
 	const bots = guild.members.filter(m => m.user.bot).size;
 	const humans = guild.memberCount - bots;
 	const guildLeaveEmbed = new Discord.RichEmbed()
-		.addField(`**Left ${guild.name}!**`, `**ID:** \`${guild.id}\`\n**Owner:** ${guild.owner.user.tag} (*${guild.owner.user.id}*)
+		.addField(`**Left ${guild.name}!**`, `**ID:** \`${guild.id}\`\n**Owner:** \`\`${guild.owner.user.tag}\`\` (*${guild.owner.user.id}*)
 **Member Count:** \`${guild.memberCount}\` - **Humans:** \`${humans}\` - **Bots:** \`${bots}\`
 **Joined:** ${time(client.user.joinedAt).fromNow()}`)
 		.setThumbnail(guild.iconURL)
