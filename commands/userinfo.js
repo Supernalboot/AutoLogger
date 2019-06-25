@@ -30,7 +30,7 @@ module.exports = {
 			.addField("ID", `\`${target.id}\``, true)
 			.addField("Roles", "```<UNDEFINED>```")
 			.addBlankField()
-			.addField("Presence", " ")
+			.addField("Presence", "E")
 			.addBlankField()
 			.addField("Created At", target.createdAt)
 			.addField("Joined At", guildTarget.joinedAt);
