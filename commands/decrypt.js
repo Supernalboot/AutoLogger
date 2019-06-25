@@ -4,8 +4,8 @@ Discord = require('discord.js');
 
 module.exports = {
 	name: 'decrypt',
-	info: 'Encrypt a message',
-	desc: 'decrypt a message with a pass code to view content',
+	info: 'Decrypt a message',
+	desc: 'Decrypt a message with a pass code to view content',
 	aliases: ['aliases'],
 	usage: '',
 	args: true,
