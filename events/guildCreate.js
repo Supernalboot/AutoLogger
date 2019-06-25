@@ -18,7 +18,7 @@ module.exports = async (client, guild) => {
 	const bots = guild.members.filter(m => m.user.bot).size;
 	const humans = guild.memberCount - bots;
 	const guildJoinEmbed = new Discord.RichEmbed()
-		.addField(`**Joined ${guild.name}!**`, `**ID:** \`${guild.id}\`\n**Owner:** ${guild.owner.user.tag} (*${guild.owner.user.id}*)
+		.addField(`**Joined ${guild.name}!**`, `**ID:** \`${guild.id}\`\n**Owner:** \`\`${guild.owner.user.tag}\`\` (*${guild.owner.user.id}*)
 **Member Count:** \`${guild.memberCount}\` - **Humans:** \`${humans}\` - **Bots:** \`${bots}\` - **Human %:** \`${(100 * (humans / (guild.memberCount))).toFixed(1)}%\``)
 		.setThumbnail(guild.iconURL)
 		.setColor(client.color.basic('green'))

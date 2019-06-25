@@ -47,12 +47,11 @@ module.exports = {
 
 		// Create our discord embed
 		const embed = new Discord.RichEmbed()
-			.setThumbnail(client.user.avatarURL)
 			.setTitle('Message Encryption')
-			.addBlankField()
+			.addDescription(`**Original Message**\n${text}`)
 			.addField('Encrypted Message', cipherText)
-			.setAuthor(message.author.tag, message.author.avatarURL)
-			.setColor();
+			.setFooter(message.user.tag, message.user.displayAvatarURL)
+			.setColor(client.color.basic('yellow'));
 
 		// Send our Encrypted message
 		return message.channel.send(embed);
