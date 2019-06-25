@@ -50,7 +50,10 @@ module.exports = {
 		});
 
 		// Encrypt our message
-		const encryption = await CryptoJS.AES.encrypt(msg, code);
+		let encryption;
+		try {
+			encryption = CryptoJS.AES.encrypt(msg, code);
+		} catch(err) { return message.author.send('There was a problem encrypting your message, if the problem persists please contact support.'); }
 
 		// Create our discord embed
 		const embed = new Discord.RichEmbed()
