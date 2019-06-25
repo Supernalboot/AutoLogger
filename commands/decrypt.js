@@ -6,7 +6,7 @@ module.exports = {
 	name: 'decrypt',
 	info: 'Decrypt a message',
 	desc: 'Decrypt a message with a pass code to view content',
-	aliases: ['aliases'],
+	aliases: ['decry'],
 	usage: '',
 	args: true,
 	guildOnly: false,
@@ -20,7 +20,10 @@ module.exports = {
 	async execute(client, message, args) {
 		// Set our values
 		const cipherText = args[0];
-		let passCode = args.slice[1];
+		let passCode = args.slice(2);
+
+		// Check if a pass code was not provided
+		if (!passCode) return message.channel.send('No pass code was provided');
 
 		// If pass code contains more then 1 word, join them
 		if (passCode.length > 1) passCode = passCode.join(' ');
