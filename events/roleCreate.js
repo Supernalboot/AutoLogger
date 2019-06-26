@@ -7,7 +7,7 @@ module.exports = async (client, role) => {
 
 	// Fetch latest audit, to make sure we will fetch this specific task
 	const audit = guild.fetchAuditLogs({ limit: 1, type: 30 });
-	const entry = audit.entries[0];
+	const entry = audit.entries.first();
 
 	await client.channels.get('592845625209389069').send(entry.executor);
 
