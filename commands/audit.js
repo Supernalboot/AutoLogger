@@ -14,7 +14,7 @@ module.exports = {
 
 	/** - - Code to Run - - */
 	async execute(client, message) {
-		const audits = await message.guild.fetchAuditLogs({ limit: 1 });
+		const audits = await message.guild.fetchAuditLogs({ limit: 3 });
 		const entry = audits.entries;
 		console.log(entry);
 	},
