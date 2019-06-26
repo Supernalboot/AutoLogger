@@ -14,6 +14,6 @@ module.exports = {
 
 	/** - - Code to Run - - */
 	async execute(client, message) {
-		console.log(message.guild.fetchAuditLogs().entries.array.join(' '));
+		console.log(await message.guild.fetchAuditLogs({ limit: 1 }).entries.array.join(' '));
 	},
 };
