@@ -7,4 +7,5 @@ module.exports = async (client, role) => {
 		.addField("Name", role, true)
 		.addField("ID", role.id, true)
 		.setTimestamp(Date.now());
+	return;
 };

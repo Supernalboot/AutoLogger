@@ -12,6 +12,6 @@ module.exports = async (client, message) => {
 		.addField("Message", message)
 		.addField("Author", `${author.tag} \`(${author.id})\``)
 		.setTimestamp(Date.now());
-
+	return;
 	// TODO add database and send message
 };
