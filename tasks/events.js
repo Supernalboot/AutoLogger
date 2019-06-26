@@ -8,6 +8,7 @@ module.exports = (client) => {
 	client.on('guildUpdate', (oldGuild, newGuild) => { Event('guildUpdate')(client, oldGuild, newGuild); });
 	client.on('messageDelete', (message) => { Event('messageDelete')(client, message); });
 	client.on('messageUpdate', (oldMessage, newMessage) => { Event('messageUpdate')(client, oldMessage, newMessage); });
+	client.on('roleCreate', (role) => { Event('roleCreate')(client, role); });
 	// client.on('guildMemberAdd', (member) => { Event('guildMemberAdd')(client, member); });
 	// client.on('guildMemberRemove', (member) => { Event('guildMemberRemove')(client, member); });
 	// client.on('guildMemberUpdate', (oldMember, newMember) => { Event('guildMemberUpdate')(client, oldMember, newMember); });
