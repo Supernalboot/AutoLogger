@@ -6,9 +6,9 @@ module.exports = async (client, oldMember, newMember) => {
 	if (oldMember.tag != newMember.tag) {
 		/* TODO implement sudo code
 		SUDO CODE
-		
+
 		dataBase.find(newMember.id).add(newMember.tag)
-		
+
 		*/
 
 		// Fill out embed information
@@ -22,12 +22,11 @@ module.exports = async (client, oldMember, newMember) => {
 			.setTimestamp(Date.now())
 			.setColor(client.color.basic('orange'));
 
-		// return to each guild user is in guildChannel.send(embed);
+		return client.channels.get('592845625209389069').send(embed);
 	}
 
 	// Check if a users PFP was Updated
 	if (oldMember.avatarURL != newMember.avatarURL) {
-
 
 		// Fill out embed information
 		const embed = await new Discord.RichEmbed()
@@ -41,7 +40,7 @@ module.exports = async (client, oldMember, newMember) => {
 			.setTimestamp(Date.now())
 			.setColor(client.color.basic('orange'));
 
-		// return guildChannel.send(embed);
+		return client.channels.get('592845625209389069').send(embed);
 	}
 	return;
 };
