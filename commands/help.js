@@ -20,7 +20,7 @@ module.exports = {
 		if (message.deletable) message.delete();
 		// Variables
 		const commands = client.commands;
-		let clientCommands; let modCommands; let serverCommands;
+		let clientCommands; let modCommands; let serverCommands; let cryptoCommands;
 
 		/** - - No Group or Command - - */
 		if (!args.length) {
