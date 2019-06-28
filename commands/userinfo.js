@@ -10,7 +10,7 @@ module.exports = {
 	args: false,
 	guildOnly: true,
 	ownerOnly: false,
-	group: 'client/moderation/server',
+	group: 'moderation',
 	perm: 'ADMINISTRATOR',
 	perms: [],
 	cooldown: 2,
