@@ -17,7 +17,7 @@ module.exports = {
 
 		// Set variables
 		const group = args[0];
-		const channel = client.channels.find(args[1].toString());
+		const channel = client.channels.get(args[1]);
 		if (!channel) return message.channel.send(`Channel ID \`${args[1]}\` does not exist, please double check ID and try again.`);
 
 		if (group == 'member') {
