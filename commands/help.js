@@ -40,23 +40,23 @@ module.exports = {
 			// Owner embed
 			if (owners.includes(message.author.id)) {
 				helpEmbed = new Discord.RichEmbed()
-					.addField('**Omni** Commands', `${prefixtxt}
+					.addField('**Sekure** Commands', `${prefixtxt}
 **Client** Commands:\n${clientCommands}\n\n**Moderation** Commands:\n${modCommands}\n\n**Crypto** Commands:\n${cryptoCommands}\n\n**Server** Commands:\n${serverCommands}\n
 **Owner Commands**:\n${ownerCommands}`)
 					.addBlankField()
 					.setTimestamp(`${Date()}`)
-					.setColor(client.color.basic('omni'));
+					.setColor(client.color.basic('blue'));
 			}
 			// Normal embed
 			else {
 				helpEmbed = new Discord.RichEmbed()
-					.addField('**Omni** Commands', `${prefixtxt}
+					.addField('**Sekure** Commands', `${prefixtxt}
 **Client** Commands:\n${clientCommands}\n\n**Moderation** Commands:\n${modCommands}\n\n**Crypto** Commands:\n${cryptoCommands}\n\n**Server** Commands:\n${serverCommands}\n
 For more information do \`${prefix}help\` \`client/moderation/server\`
 or for command specific help do \`${prefix}help\` \`command\``)
 					.addBlankField()
 					.setTimestamp(`${Date()}`)
-					.setColor(client.color.basic('omni'));
+					.setColor(client.color.basic('blue'));
 			}
 			// Send embed
 			return message.author.send(helpEmbed).then(() => {
@@ -76,7 +76,7 @@ or for command specific help do \`${prefix}help\` \`command\``)
 			groupEmbed = new Discord.RichEmbed()
 				.addField(`**${args[0].replace(/^\w/, c => c.toUpperCase())}** Commands`, `${groupCommands}`)
 				.setTimestamp(`${Date()}`)
-				.setColor(client.color.basic('omni'));
+				.setColor(client.color.basic('blue'));
 			return message.channel.send(groupEmbed);
 		}
 		// Normal embed
@@ -85,7 +85,7 @@ or for command specific help do \`${prefix}help\` \`command\``)
 			groupEmbed = new Discord.RichEmbed()
 				.addField(`**${args[0].replace(/^\w/, c => c.toUpperCase())}** Commands`, `${groupCommands}\n\nFor command specific help do \`${prefix}help\` \`command\``)
 				.setTimestamp(`${Date()}`)
-				.setColor(client.color.basic('omni'));
+				.setColor(client.color.basic('blue'));
 			return message.author.send(groupEmbed).then(() => {
 				if (message.channel.type === 'dm') return;
 				message.reply(` I've sent you a DM with all my **${args[0].replace(/^\w/, c => c.toUpperCase())}** commands!`);
@@ -119,7 +119,7 @@ or for command specific help do \`${prefix}help\` \`command\``)
 				.addField(`**${command.name.replace(/^\w/, c => c.toUpperCase())}** Command`, data)
 				.setFooter(`Requested by: ${message.author.tag}`, message.author.displayAvatarURL)
 				.setTimestamp(`${Date()}`)
-				.setColor(client.color.basic('omni'));
+				.setColor(client.color.basic('blue'));
 			return message.channel.send(cmdEmbed);
 		}
 	},
