@@ -12,9 +12,9 @@ module.exports = (client) => {
 	client.on('roleDelete', (role) => { Event('roleDelete')(client, role); });
 	client.on('roleUpdate', (oldRole, newRole) => { Event('roleUpdate')(client, oldRole, newRole); });
 	client.on('userUpdate', (oldMember, newMember) => { Event('userUpdate')(client, oldMember, newMember); });
-	// client.on('guildMemberRemove', (member) => { Event('guildMemberRemove')(client, member); });
-	// client.on('guildMemberUpdate', (oldMember, newMember) => { Event('guildMemberUpdate')(client, oldMember, newMember); });
-	// client.on('guildMemberAdd', (role) => { Event('guildMemberAdd')(client, role); });
+	client.on('channelCreate', (member) => { Event('channelCreate')(client, channel); });
+	client.on('channelDelete', (oldMember, newMember) => { Event('channelDelete')(client, channel); });
+	client.on('channelUpdate', (role) => { Event('channelUpdate')(client, oldChannel, newChannel); });
 	// client.on('guildMemberRemove', (role) => { Event('guildMemberRemove')(client, role); });
 	// client.on('guildMemberUpdate', (oldRole, newRole) => { Event('guildMemberUpdate')(client, oldRole, newRole); });
 	// client.on('guildBanAdd', (guild, user) => { Event('guildMemberAdd')(client, guild, user); });
