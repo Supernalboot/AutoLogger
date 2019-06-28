@@ -14,6 +14,7 @@ module.exports = {
 
 	/** - - Code to Run - - */
 	async execute(client, message, args) {
+		if (message.deletable) message.delete();
 
 		// Set variables
 		const group = args[0];
