@@ -33,7 +33,7 @@ module.exports = async (client, oldUser, newUser) => {
 			.setTitle('**Member PFP Updated**')
 			.setThumbnail(newUser.displayAvatarURL)
 			.setImage(oldUser.displayAvatarURL)
-			.addField(`${oldUser.user.tag} change their PFP`, `New PFP ⇨\nOld PFP ⇩`)
+			.addField(`${oldUser.tag} change their PFP`, `New PFP ⇨\nOld PFP ⇩`)
 			.setFooter('Time of Action')
 			.setTimestamp(Date.now())
 			.setColor(client.color.basic('orange'));
