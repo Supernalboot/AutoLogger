@@ -18,6 +18,10 @@ module.exports = async (client) => {
 	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { logChannel = await guild.channels.get(output[0].serverlogid); });
 	if (!logChannel) return;
 
+	// Format bot tag
+	let bot = '[Bot]';
+	if (!entry.executor.bot) bot = '';
+
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Channel Deleted**')
