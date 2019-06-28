@@ -26,7 +26,7 @@ module.exports = async (client, oldRole, newRole) => {
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Role Updated**')
-		.addField('Role', `<@&${newRole.id}>\n\`${newRole.id}\``, true)
+		.addField('Role', `${newRole}\n\`${newRole.id}\``, true)
 		.addField('Updated by', `\`\`${entry.executor.tag} ${bot}\`\`\n\`${entry.executor.id}\``, true)
 		.addField('Changes', `\`\`\`diff\n${changes.join('\n')}\`\`\``)
 		.setFooter('Time of Action')
@@ -44,6 +44,6 @@ module.exports = async (client, oldRole, newRole) => {
 // ╭───────────────┬───────────────┬─────────────────╮
 // │ --- Color --- │ --- Hoist --- │ --- Mention --- │
 // ├───────────────┼───────────────┼─────────────────┤
-// +   10181046    │     TRUE      |      TRUE       │
+// +   10181046    │     TRUE      │      TRUE       │
 // -    3447003    │               │                 │
 // ╰───────────────┴───────────────┴─────────────────╯
