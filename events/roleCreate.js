@@ -9,11 +9,26 @@ module.exports = async (client, role) => {
 	const audit = await guild.fetchAuditLogs({ limit: 1 });
 	const entry = await audit.entries.first();
 
+	// Format bot tag
+	let bot = '[Bot]';
+	if (!entry.executor.bot) bot = '';
+
+	// Format users permissions
+	const permissions = [];
+	let perms = await new Discord.Permissions(role.permissions);
+	if (role.hasPermission("ADMINISTRATOR")) perms = "Administrator";
+	else perms = perms.toArray(true);
+	for (const perm of perms) {
+		const permName = perm.toLowerCase().replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase()).replace(/\s[a-z]/g, c=> c.toUpperCase()).replace('Vad', 'VAD').replace('Tts', 'TTS');
+		await permissions.push(permName);
+	}
+
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Role Created**')
 		.addField('Role', `<@&${role.id}>\n\`${role.id}\``, true)
-		.addField('Created by', `\`\`${entry.executor.tag}\`\`\n\`${entry.executor.id}\``, true)
+		.addField('Created by', `\`\`${entry.executor.tag} ${bot}\`\`\n\`${entry.executor.id}\``, true)
+		.addField('Permissions', permissions.join(' | '))
 		.setFooter('Time of Action')
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('green'));

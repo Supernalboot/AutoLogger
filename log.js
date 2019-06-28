@@ -5,7 +5,7 @@ const Discord = require('discord.js');
 /** - - Client - - */
 const client = new Discord.Client({
 	disableEveryone: true,
-	disabledEvents: ['CLIENT_USER_GUILD_SETTINGS_UPDATE', 'CLIENT_USER_SETTINGS_UPDATE', 'GUILD_MEMBER_CHUNK', 'GUILD_MEMBER_SPEAKING', 'PRESENCE_UPDATE', 'RESUME',
+	disabledEvents: ['CLIENT_USER_GUILD_SETTINGS_UPDATE', 'CLIENT_USER_SETTINGS_UPDATE', 'GUILD_MEMBER_CHUNK', 'GUILD_MEMBER_SPEAKING', 'RESUME',
 		'TYPING_START', 'TYPING_STOP', 'GUILD_SYNC', 'RELATIONSHIP_ADD', 'RELATIONSHIP_REMOVE', 'USER_NOTE_UPDATE', 'VOICE_STATE_UPDATE'],
 	messageCacheMaxSize: -1,
 	messageCacheLifetime: 604800,

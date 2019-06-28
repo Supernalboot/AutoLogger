@@ -9,13 +9,26 @@ module.exports = async (client, oldRole, newRole) => {
 	const audit = await guild.fetchAuditLogs({ limit: 1 });
 	const entry = await audit.entries.first();
 
+	// Format bot tag
+	let bot = '[Bot]';
+	if (!entry.executor.bot) bot = '';
+
+	// Format changes
+	const changes = [];
+	if (oldRole.name != newRole.name) await changes.push(`--- Name ---\n- ${oldRole.name}\n+ ${newRole.name}`);
+	if (oldRole.calculatedPosition != newRole.calculatedPosition) await changes.push(`--- Position ---\n- ${oldRole.calculatedPosition}/${guild.roles.size}\n+ ${newRole.calculatedPosition}/${guild.roles.size}`);
+	if (oldRole.color != newRole.color) await changes.push(`--- Color ---\n- ${oldRole.color}\n+ ${newRole.color}`);
+	if (oldRole.hoist != newRole.hoist) await changes.push(`--- Hoist ---\n+ ${newRole.hoist}`);
+	if (oldRole.mentionable != newRole.mentionable) await changes.push(`--- Mentionable ---\n+ ${newRole.mentionable}`);
+	// If no significant changes, return
+	if (!changes.length) return;
+
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Role Updated**')
-		.addField('Role', `<@&${newRole.id}>\n\`${newRole.id}\``)
-		.addField('Before', `@${oldRole.name}`, true)
-		.addField('After', `@${newRole.name}`, true)
-		.addField('Updated by', `\`\`${entry.executor.tag}\`\`\n\`${entry.executor.id}\``)
+		.addField('Role', `<@&${newRole.id}>\n\`${newRole.id}\``, true)
+		.addField('Updated by', `\`\`${entry.executor.tag} ${bot}\`\`\n\`${entry.executor.id}\``, true)
+		.addField('Changes', `\`\`\`diff\n${changes.join('\n')}\`\`\``)
 		.setFooter('Time of Action')
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('orange'));
@@ -27,3 +40,10 @@ module.exports = async (client, oldRole, newRole) => {
 	return client.channels.get('592845625209389069').send(embed);
 
 };
+
+// ╭───────────────┬───────────────┬─────────────────╮
+// │ --- Color --- │ --- Hoist --- │ --- Mention --- │
+// ├───────────────┼───────────────┼─────────────────┤
+// +   10181046    │     TRUE      |      TRUE       │
+// -    3447003    │               │                 │
+// ╰───────────────┴───────────────┴─────────────────╯
