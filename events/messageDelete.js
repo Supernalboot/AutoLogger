@@ -15,8 +15,8 @@ module.exports = async (client, message) => {
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Message Deleted**')
-		.addField(`**${message.author.tag}**`, `\`\`\`${message.content}\`\`\``, true)
-		.addField('Deleted by', `\`\`${entry.executor.tag}\`\`\n\`${entry.executor.id}\``, true)
+		.addField(`**${message.author.tag}**`, `\`\`\`${message.content}\`\`\``)
+		.addField('Deleted by', `\`\`${entry.executor.tag}\`\`\n\`${entry.executor.id}\``)
 		.setFooter('Time of Action')
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('red'));
