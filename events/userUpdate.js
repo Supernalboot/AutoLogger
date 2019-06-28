@@ -32,9 +32,8 @@ module.exports = async (client, oldUser, newUser) => {
 		const embed = await new Discord.RichEmbed()
 			.setTitle('**Member PFP Updated**')
 			.setThumbnail(newUser.displayAvatarURL)
-			.setImage(`${oldUser.displayAvatarURL.replace(/\?size=[0-9]+/, '?size=64')}`)
-			.addField(`${oldUser.tag} change their PFP`, `New PFP ⇨\nOld PFP ⇩`)
-			.setFooter('Time of Action')
+			.addField(`${oldUser.tag} change their PFP`, `New PFP ⇨\n⇩ Old PFP`)
+			.setFooter('Time of Action', oldUser.displayAvatarURL)
 			.setTimestamp(Date.now())
 			.setColor(client.color.basic('orange'));
 
