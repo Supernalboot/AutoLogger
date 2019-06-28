@@ -13,10 +13,9 @@ module.exports = async (client, oldUser, newUser) => {
 
 		// Fill out embed information
 		const embed = await new Discord.RichEmbed()
-			.setTitle('**User Updated**')
-			.addField('New User', `\`${newUser.tag}\``, true)
-			.addField('Old User', `\`${oldUser.tag}\``, true)
-			.addField("ID", `\`${newUser.id}\``)
+			.setTitle(`**${oldUser.tag}** changed username`)
+			.addField('New Username', `\`${newUser.tag}\``, true)
+			.addField('User ID', `\`${newUser.id}\``, true)
 			.addField("Previous Names", "```<ADD NAMES>```")
 			.setFooter('Time of Action')
 			.setTimestamp(Date.now())
@@ -30,9 +29,9 @@ module.exports = async (client, oldUser, newUser) => {
 
 		// Fill out embed information
 		const embed = await new Discord.RichEmbed()
-			.setTitle('**Member PFP Updated**')
+			.setTitle(`**${oldUser.tag}** changed PFP`)
 			.setThumbnail(newUser.displayAvatarURL)
-			.addField(`${oldUser.tag} change their PFP`, `New PFP ⇨\n⇩ Old PFP`)
+			.addField(`New PFP ⇨`, `⇩ Old PFP`)
 			.setFooter('Time of Action', oldUser.displayAvatarURL)
 			.setTimestamp(Date.now())
 			.setColor(client.color.basic('orange'));
