@@ -13,6 +13,7 @@ module.exports = async (client) => {
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Channel Deleted**')
 		.addField('Channel', `${channel}\n\`${channel.id}\``, true)
+		.addField('Channel Type', `\`${channel.type}\``, true)
 		.addField('Deleted by', `\`\`${entry.executor.tag} ${bot}\`\`\n\`${entry.executor.id}\``, true)
 		.setFooter('Time of Action')
 		.setTimestamp(Date.now())

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-module.exports = async (client) => {
+module.exports = async (client, oldChannel, newChannel) => {
 	// Get guild variable
 	const guild = channel.guild;
 
@@ -13,6 +13,7 @@ module.exports = async (client) => {
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Channel Updated**')
 		.addField('Channel', `${channel}\n\`${channel.id}\``, true)
+		.addField('Channel Type', `\`${newChannel.type}\``, true)
 		.addField('Updated by', `\`\`${entry.executor.tag} ${bot}\`\`\n\`${entry.executor.id}\``, true)
 		.setFooter('Time of Action')
 		.setTimestamp(Date.now())
