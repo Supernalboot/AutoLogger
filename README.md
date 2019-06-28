@@ -8,7 +8,7 @@ Sekure is a Discord Bot created using Node.js and using the Discord.js API Wrapp
 
 ## What does it do
 
-Sekure is a powerful Bot, allowing you to log many things that happen in a server and can be changed by enabling and disabling modules as well as selecting which channels to send what logs to.
+Sekure is a powerful, secure, moderation bot, with features including: Advanced Logging, Smart Anti-Spam and even Message Encryption!
 
 ---
 
