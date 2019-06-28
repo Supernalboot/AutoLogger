@@ -11,7 +11,7 @@ module.exports = (client) => {
 	client.on('roleCreate', (role) => { Event('roleCreate')(client, role); });
 	client.on('roleDelete', (role) => { Event('roleDelete')(client, role); });
 	client.on('roleUpdate', (oldRole, newRole) => { Event('roleUpdate')(client, oldRole, newRole); });
-	client.on('userUpdate', (oldUser, newUser) => { Event('userUpdate')(client, oldUser, newUser); });
+	// client.on('userUpdate', (oldUser, newUser) => { Event('userUpdate')(client, oldUser, newUser); });
 	client.on('channelCreate', (channel) => { Event('channelCreate')(client, channel); });
 	client.on('channelDelete', (channel) => { Event('channelDelete')(client, channel); });
 	client.on('channelUpdate', (oldChannel, newChannel) => { Event('channelUpdate')(client, oldChannel, newChannel); });
