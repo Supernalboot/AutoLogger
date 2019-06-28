@@ -1,10 +1,3 @@
-/*
- * Copyright (C) 2019  Joshua McCrystal
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Joshua McCrystal <joshua.mccrystal@hotmail.com>, 28/03/2019
-*/
-
 module.exports = {
 	name: 'help',
 	args: false,
