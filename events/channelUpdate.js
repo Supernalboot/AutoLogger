@@ -8,6 +8,10 @@ module.exports = async (client, oldChannel, newChannel) => {
 	const audit = await guild.fetchAuditLogs({ limit: 1 });
 	const entry = await audit.entries.first();
 
+	// Check if guild has enabled this module
+	let enabled;
+	await client.knex.from('guilddata').where('guildid', guild.id).select('channelupdate').then(async function(output) { enabled = await output[0].channelupdate; });
+	if (!enabled) return;
 
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()

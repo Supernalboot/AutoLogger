@@ -4,6 +4,12 @@ module.exports = async (client, oldUser, newUser) => {
 
 	// Check if a users tag was updated
 	if (oldUser.tag != newUser.tag) {
+
+		// Check if guild has enabled this module
+		let enabled;
+		await client.knex.from('guilddata').where('guildid', guild.id).select('username').then(async function(output) { enabled = await output[0].username; });
+		if (!enabled) return;
+
 		/* TODO implement sudo code
 		SUDO CODE
 
@@ -26,6 +32,11 @@ module.exports = async (client, oldUser, newUser) => {
 
 	// Check if a users PFP was Updated
 	if (oldUser.displayAvatarURL != newUser.displayAvatarURL) {
+
+		// Check if guild has enabled this module
+		let enabled;
+		await client.knex.from('guilddata').where('guildid', guild.id).select('userpfp').then(async function(output) { enabled = await output[0].userpfp; });
+		if (!enabled) return;
 
 		// Fill out embed information
 		const embed = await new Discord.RichEmbed()

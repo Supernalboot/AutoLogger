@@ -5,6 +5,11 @@ module.exports = async (client, channel) => {
 	// Get guild variable
 	const guild = channel.guild;
 
+	// Check if guild has enabled this module
+	let enabled;
+	await client.knex.from('guilddata').where('guildid', guild.id).select('channelcreate').then(async function(output) { enabled = await output[0].channelcreate; });
+	if (!enabled) return;
+
 	// Fetch latest audit, to make sure we will fetch this specific task
 	const audit = await guild.fetchAuditLogs({ limit: 1 });
 	const entry = await audit.entries.first();
