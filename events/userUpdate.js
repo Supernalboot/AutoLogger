@@ -31,7 +31,7 @@ module.exports = async (client, oldUser, newUser) => {
 		const embed = await new Discord.RichEmbed()
 			.setTitle(`**${oldUser.tag}** changed PFP`)
 			.setThumbnail(newUser.displayAvatarURL)
-			.addField(`New PFP ⇨`, `⇩ Old PFP`)
+			.addField(`New Profile Picture ⇨`, `⇩ Old Profile Picture`)
 			.setFooter('Time of Action', oldUser.displayAvatarURL)
 			.setTimestamp(Date.now())
 			.setColor(client.color.basic('orange'));

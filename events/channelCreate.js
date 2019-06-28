@@ -9,7 +9,6 @@ module.exports = async (client, channel) => {
 	const audit = await guild.fetchAuditLogs({ limit: 1 });
 	const entry = await audit.entries.first();
 
-
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Channel Created**')
