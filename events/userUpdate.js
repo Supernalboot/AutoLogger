@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 
-module.exports = async (client, oldMember, newMember) => {
+module.exports = async (client, oldUser, newUser) => {
 
 	// Check if a users tag was updated
-	if (oldMember.tag != newMember.tag) {
+	if (oldUser.tag != newUser.tag) {
 		/* TODO implement sudo code
 		SUDO CODE
 
@@ -14,9 +14,9 @@ module.exports = async (client, oldMember, newMember) => {
 		// Fill out embed information
 		const embed = await new Discord.RichEmbed()
 			.setTitle('**User Updated**')
-			.addField('New User', `\`${newMember.tag}\``, true)
-			.addField('Old User', `\`${oldMember.tag}\``, true)
-			.addField("ID", `\`${newMember.id}\``)
+			.addField('New User', `\`${newUser.tag}\``, true)
+			.addField('Old User', `\`${oldUser.tag}\``, true)
+			.addField("ID", `\`${newUser.id}\``)
 			.addField("Previous Names", "```<ADD NAMES>```")
 			.setFooter('Time of Action')
 			.setTimestamp(Date.now())
@@ -26,16 +26,14 @@ module.exports = async (client, oldMember, newMember) => {
 	}
 
 	// Check if a users PFP was Updated
-	if (oldMember.avatarURL != newMember.avatarURL) {
+	if (oldUser.displayAvatarURL != newUser.displayAvatarURL) {
 
 		// Fill out embed information
 		const embed = await new Discord.RichEmbed()
-			.setTitle('**User PFP Updated**')
-			.setThumbnail(newMember.avatarURL)
-			.setImage(oldMember.avatarURL)
-			.addField('New User PFP', `\`${newMember.avatarURL}\``, true)
-			.addField('Old User', `\`${oldMember.avatarURL}\``)
-			.addField("ID", `\`${newMember.id}\``)
+			.setTitle('**Member PFP Updated**')
+			.setThumbnail(newUser.displayAvatarURL)
+			.setImage(oldUser.displayAvatarURL)
+			.addField(`${oldUser.user.tag} change their PFP`, `New PFP ⇨\nOld PFP ⇩`)
 			.setFooter('Time of Action')
 			.setTimestamp(Date.now())
 			.setColor(client.color.basic('orange'));
