@@ -4,7 +4,7 @@ module.exports = async (client, oldMember, newMember) => {
 
 	// Check if a users tag was updated
 	if (oldMember.tag != newMember.tag) {
-		/* TODO
+		/* TODO implement sudo code
 		SUDO CODE
 		
 		dataBase.find(newMember.id).add(newMember.tag)
