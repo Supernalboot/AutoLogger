@@ -12,7 +12,7 @@ module.exports = async (client, role) => {
 
 	// Grab log channel
 	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { logChannel = await output[0].serverlogid; });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { logChannel = await guild.channels.get(output[0].serverlogid); });
 	if (!logChannel) return;
 
 	// Fetch latest audit, to make sure we will fetch this specific task

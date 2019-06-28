@@ -16,7 +16,7 @@ module.exports = async (client, message) => {
 
 	// Grab log channel
 	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('messagelogid').then(async function(output) { logChannel = await output[0].messagelogid; });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('messagelogid').then(async function(output) { logChannel = await guild.channels.get(output[0].messagelogid); });
 	if (!logChannel) return;
 
 	// Return any bots changing messages to reduce spam

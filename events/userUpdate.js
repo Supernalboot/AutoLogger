@@ -7,7 +7,7 @@ module.exports = async (client, oldUser, newUser) => {
 
 		// Check if guild has enabled this module
 		let enabled;
-		await client.knex.from('guilddata').where('guildid', guild.id).select('username').then(async function(output) { enabled = await output[0].username; });
+		await client.knex.from('guilddata').where('guildid', guild.id).select('username').then(async function(output) { enabled = await guild.channels.get(output[0].username); });
 		if (!enabled) return;
 
 		/* TODO implement sudo code
