@@ -13,6 +13,11 @@ module.exports = async (client, oldMessage, newMessage) => {
 	await client.knex.from('guilddata').where('guildid', guild.id).select('channelcreate').then(async function(output) { enabled = await output[0].channelcreate; });
 	if (!enabled) return;
 
+	// Grab log channel
+	let logChannel;
+	await client.knex.from('guilddata').where('guildid', guild.id).select('messagelogid').then(async function(output) { logChannel = await output[0].messagelogid; });
+	if (!logChannel) return;
+
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Message Updated**')
@@ -23,6 +28,6 @@ module.exports = async (client, oldMessage, newMessage) => {
 		.setColor(client.color.basic('orange'));
 
 	// Send embed
-	return client.channels.get('592845625209389069').send(embed);
+	return logChannel.send(embed);
 
 };

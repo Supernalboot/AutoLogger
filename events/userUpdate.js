@@ -38,6 +38,11 @@ module.exports = async (client, oldUser, newUser) => {
 		await client.knex.from('guilddata').where('guildid', guild.id).select('userpfp').then(async function(output) { enabled = await output[0].userpfp; });
 		if (!enabled) return;
 
+		// Grab log channel
+		let logChannel;
+		await client.knex.from('guilddata').where('guildid', guild.id).select('memberlogid').then(async function(output) { logChannel = await output[0].memberlogid; });
+		if (!logChannel) return;
+
 		// Fill out embed information
 		const embed = await new Discord.RichEmbed()
 			.setTitle(`**${oldUser.tag}** changed PFP`)
@@ -47,7 +52,10 @@ module.exports = async (client, oldUser, newUser) => {
 			.setTimestamp(Date.now())
 			.setColor(client.color.basic('orange'));
 
-		return client.channels.get('592845625209389069').send(embed);
+		// Send embed
+		return logChannel.send(embed);
+
 	}
-	return;
+
+	else { return; }
 };

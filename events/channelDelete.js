@@ -13,6 +13,11 @@ module.exports = async (client) => {
 	await client.knex.from('guilddata').where('guildid', guild.id).select('channeldelete').then(async function(output) { enabled = await output[0].channeldelete; });
 	if (!enabled) return;
 
+	// Grab log channel
+	let logChannel;
+	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { logChannel = await output[0].serverlogid; });
+	if (!logChannel) return;
+
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Channel Deleted**')
@@ -27,5 +32,5 @@ module.exports = async (client) => {
 	if (entry.reason) await embed.setDescription(`**Reason:** ${entry.reason}`);
 
 	// Send embed
-	return client.channels.get('592845625209389069').send(embed);
+	return logChannel.send(embed);
 };

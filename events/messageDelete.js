@@ -14,6 +14,11 @@ module.exports = async (client, message) => {
 	await client.knex.from('guilddata').where('guildid', guild.id).select('messagedelete').then(async function(output) { enabled = await output[0].messagedelete; });
 	if (!enabled) return;
 
+	// Grab log channel
+	let logChannel;
+	await client.knex.from('guilddata').where('guildid', guild.id).select('messagelogid').then(async function(output) { logChannel = await output[0].messagelogid; });
+	if (!logChannel) return;
+
 	// Return any bots changing messages to reduce spam
 	if (entry.executor.bot) return;
 
@@ -27,6 +32,6 @@ module.exports = async (client, message) => {
 		.setColor(client.color.basic('red'));
 
 	// Send embed
-	return client.channels.get('592845625209389069').send(embed);
+	return logChannel.send(embed);
 
 };

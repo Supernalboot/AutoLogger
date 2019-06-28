@@ -10,6 +10,11 @@ module.exports = async (client, channel) => {
 	await client.knex.from('guilddata').where('guildid', guild.id).select('channelcreate').then(async function(output) { enabled = await output[0].channelcreate; });
 	if (!enabled) return;
 
+	// Grab log channel
+	let logChannel;
+	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { logChannel = await output[0].serverlogid; });
+	if (!logChannel) return;
+
 	// Fetch latest audit, to make sure we will fetch this specific task
 	const audit = await guild.fetchAuditLogs({ limit: 1 });
 	const entry = await audit.entries.first();
@@ -28,5 +33,5 @@ module.exports = async (client, channel) => {
 	if (entry.reason) await embed.setDescription(`**Reason:** ${entry.reason}`);
 
 	// Send embed
-	return client.channels.get('592845625209389069').send(embed);
+	return logChannel.send(embed);
 };
