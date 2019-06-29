@@ -1,3 +1,6 @@
+TO DISCORD TEAM <3
+Invite code for bot can be found here https://discordapp.com/oauth2/authorize?client_id=592910440003272724&permissions=8&scope=bot, anyone else you could invite the bot, but its highly unpolished and is only in a testing phase, we are not responsible for anything the bot does in your server. (This will change once we have it at a decent point of development, until then, this is for Hackweek <3
+
 # Sekure
 
 ## What is Sekure
