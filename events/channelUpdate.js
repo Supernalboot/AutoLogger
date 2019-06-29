@@ -18,16 +18,15 @@ module.exports = async (client, oldChannel, newChannel) => {
 	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].serverlogid); });
 	if (!logChannel) return;
 
-	// Format bot tag
-	let bot = '[Bot]';
-	if (!entry.executor.bot) bot = '';
+	// Stop bots from triggering event to reduce spam
+	if (entry.executor.bot) return;
 
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Channel Updated**')
 		.addField('Channel', `${newChannel}\n\`${newChannel.id}\``, true)
 		.addField('Channel Type', `\`${newChannel.type}\``, true)
-		.addField('Updated by', `\`\`${entry.executor.tag} ${bot}\`\`\n\`${entry.executor.id}\``, true)
+		.addField('Updated by', `\`\`${entry.executor.tag}\`\`\n\`${entry.executor.id}\``, true)
 		.setFooter('Time of Action')
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('orange'));
