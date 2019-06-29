@@ -25,16 +25,16 @@ module.exports = {
 			// Fill out embed information
 			const embed = await new Discord.RichEmbed()
 				.setTitle('**Current Module Toggles**')
-				.addField('MessageDelete', `${data.messagedelete.replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('MessageUpdate', `${data.messageupdate.replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('ChannelCreate', `${data.channelcreate.replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('ChannelDelete', `${data.channeldelete.replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('ChannelUpdate', `${data.channelupdate.replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('RoleCreate', `${data.messagecreate.replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('RoleDelete', `${data.messagedelete.replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('RoleUpdate', `${data.messagedelete.replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('UserPFP', `${data.userpfp.replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('Username', `${data.username.replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('MessageDelete', `${data.messagedelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('MessageUpdate', `${data.messageupdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('ChannelCreate', `${data.channelcreate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('ChannelDelete', `${data.channeldelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('ChannelUpdate', `${data.channelupdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('RoleCreate', `${data.messagecreate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('RoleDelete', `${data.messagedelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('RoleUpdate', `${data.messagedelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('UserPFP', `${data.userpfp.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('Username', `${data.username.toString().replace('true', '✅').replace('false', '🅾')}`, true)
 				.setColor(client.color.basic('blue'));
 			// Send embed
 			return logChannel.send(embed);
