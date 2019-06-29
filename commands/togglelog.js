@@ -20,7 +20,7 @@ module.exports = {
 
 			// Grab current settings from database
 			let data;
-			await client.knex.from('guilddata').where('guildid', guild.id).select('*').then(async function(output) { if (output[0]) data = await output[0]; });
+			await client.knex.from('guilddata').where('guildid', message.guild.id).select('*').then(async function(output) { if (output[0]) data = await output[0]; });
 
 			// Fill out embed information
 			const embed = await new Discord.RichEmbed()
