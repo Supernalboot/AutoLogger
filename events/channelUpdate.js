@@ -25,7 +25,7 @@ module.exports = async (client, oldChannel, newChannel) => {
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Channel Updated**')
-		.addField('Channel', `${channel}\n\`${channel.id}\``, true)
+		.addField('Channel', `${newChannel}\n\`${newChannel.id}\``, true)
 		.addField('Channel Type', `\`${newChannel.type}\``, true)
 		.addField('Updated by', `\`\`${entry.executor.tag} ${bot}\`\`\n\`${entry.executor.id}\``, true)
 		.setFooter('Time of Action')
