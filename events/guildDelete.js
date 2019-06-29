@@ -4,7 +4,7 @@ const time = require('moment');
 module.exports = async (client, guild) => {
 	guild.fetchMembers('', guild.members.size);
 	// Delete guild entry
-	client.knex.from('guildsettings').where('guildid', guild.id).update('isactive', false).then(console.log(`[DATA] Guild ${guild.id} left, isActive is now FALSE!`));
+	client.knex.from('guilddata').where('guildid', guild.id).update('isactive', false).then(console.log(`[DATA] Guild ${guild.id} left, isActive is now FALSE!`));
 	// Guild leave embed
 	const bots = guild.members.filter(m => m.user.bot).size;
 	const humans = guild.memberCount - bots;
