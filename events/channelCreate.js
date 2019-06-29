@@ -7,12 +7,12 @@ module.exports = async (client, channel) => {
 
 	// Check if guild has enabled this module
 	let enabled;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('channelcreate').then(async function(output) { enabled = await output[0].channelcreate; });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('channelcreate').then(async function(output) { if (output[0]) enabled = await output[0].channelcreate; });
 	if (!enabled) return;
 
 	// Grab log channel
 	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { logChannel = await guild.channels.get(output[0].serverlogid); });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].serverlogid); });
 	if (!logChannel) return;
 
 	// Fetch latest audit, to make sure we will fetch this specific task

@@ -10,12 +10,12 @@ module.exports = async (client, oldChannel, newChannel) => {
 
 	// Check if guild has enabled this module
 	let enabled;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('channelupdate').then(async function(output) { enabled = await output[0].channelupdate; });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('channelupdate').then(async function(output) { if (output[0]) enabled = await output[0].channelupdate; });
 	if (!enabled) return;
 
 	// Grab log channel
 	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { logChannel = await guild.channels.get(output[0].serverlogid); });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].serverlogid); });
 	if (!logChannel) return;
 
 	// Format bot tag

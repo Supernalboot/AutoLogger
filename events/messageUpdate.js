@@ -10,12 +10,12 @@ module.exports = async (client, oldMessage, newMessage) => {
 
 	// Check if guild has enabled this module
 	let enabled;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('channelcreate').then(async function(output) { enabled = await output[0].channelcreate; });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('channelcreate').then(async function(output) { if (output[0]) enabled = await output[0].channelcreate; });
 	if (!enabled) return;
 
 	// Grab log channel
 	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('messagelogid').then(async function(output) { logChannel = await guild.channels.get(output[0].messagelogid); });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('messagelogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].messagelogid); });
 	if (!logChannel) return;
 
 	// Fill out embed information
