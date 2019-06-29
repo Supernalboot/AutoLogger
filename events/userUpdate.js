@@ -2,6 +2,14 @@ const Discord = require('discord.js');
 
 module.exports = async (client, oldUser, newUser) => {
 
+	// Get all guilds that have this user as a member
+	const guilds = [];
+	for (const guild of client.guilds) {
+		if (guild.members.get(oldUser.id) != null) {
+			await guilds.push(guild.id);
+		}
+	} console.log(guilds);
+
 	// Check if a users tag was updated
 	if (oldUser.tag != newUser.tag) {
 

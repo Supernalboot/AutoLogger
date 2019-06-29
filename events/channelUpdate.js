@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = async (client, oldChannel, newChannel) => {
 	// Get guild variable
-	const guild = channel.guild;
+	const guild = oldChannel.guild;
 
 	// Fetch latest audit, to make sure we will fetch this specific task
 	const audit = await guild.fetchAuditLogs({ limit: 1 });
