@@ -1,12 +1,12 @@
 
 module.exports = {
-    name: 'name',
-    info: 'info about command',
-    desc: 'longer version info for help command here',
-    aliases: ['aliases'],
+    name: 'STB',
+    info: 'String To Binary',
+    desc: 'turns String to Binary code format',
+    aliases: ['stb'],
     usage: '',
-    args: false,
-    guildOnly: true,
+    args: true,
+    guildOnly: false,
     ownerOnly: false,
     group: 'client/moderation/server',
     perm: 'ADMINISTRATOR',
