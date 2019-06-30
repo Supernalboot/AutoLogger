@@ -19,9 +19,13 @@ module.exports = async (client, oldUser, newUser) => {
 		if (!enabled) return;
 
 		/* TODO implement sudo code
-		SUDO CODE
+		SUDO CODE so people will be able to see previous names
 
-		dataBase.find(newMember.id).add(newMember.tag)
+		if(!dataBase.find(newMember.id)) { 
+			dataBase.add(newMember.tag);
+		} else {
+			previousNamesArray = dataBase.find(newMember.id).previousNames
+		}
 
 		*/
 
