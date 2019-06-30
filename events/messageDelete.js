@@ -5,10 +5,6 @@ module.exports = async (client, message) => {
 	// Get guild variable
 	const guild = message.guild;
 
-	// Fetch latest audit, to make sure we will fetch this specific task
-	const audit = await guild.fetchAuditLogs({ limit: 1 });
-	const entry = await audit.entries.first();
-
 	// Check if guild has enabled this module
 	let enabled;
 	await client.knex.from('guilddata').where('guildid', guild.id).select('messagedelete').then(async function(output) { if (output[0]) enabled = await output[0].messagedelete; });
@@ -25,7 +21,8 @@ module.exports = async (client, message) => {
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
 		.setTitle('**Message Deleted**')
-		.addField(`**${message.author.tag}**`, `\`\`\`${message.content}\`\`\``)
+		.addField(`**${message.author.tag}**`, `\`\`\`${message.content}\`\`\``, true)
+		.addField(`**Channel**`, `${message.channel}`, true)
 		.setFooter('Time of Action')
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('red'));

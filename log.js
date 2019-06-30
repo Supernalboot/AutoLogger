@@ -34,7 +34,7 @@ for (const file of commandFiles) {
 
 /** - - Requirements - - */
 require('./tasks/events.js')(client);
-const { token } = require('./config.json');
+const { token, betatoken } = require('./config.json');
 
 /** - - Storage - - */
 client.knex = require('knex')(require('./knexfile.js')['server']);
@@ -86,4 +86,5 @@ client.on('error', error => {
 });
 
 /** - - Client Login - - */
-client.login(token);
+if (process.env.ENVIRONMENT == 'server') client.login(token);
+client.login(betatoken);

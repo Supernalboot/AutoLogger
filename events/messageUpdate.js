@@ -20,8 +20,8 @@ module.exports = async (client, oldMessage, newMessage) => {
 
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
-		.setTitle('**Message Updated**')
-		.addField(`**${oldMessage.author.tag}**`, `\`\`\`diff\n- ${oldMessage.content}\n+ ${newMessage.content}\`\`\``)
+		.setAuthor({ name: '**Message Updated**', url: newMessage.url })
+		.addField(`**${oldMessage.author.tag}**`, `\`\`\`diff\n- ${oldMessage.content}\n+ ${newMessage.content}\`\`\``, true)
 		.setFooter('Time of Action')
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('orange'));
