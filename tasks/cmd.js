@@ -48,7 +48,7 @@ module.exports = async (client, message, command, commandName, args, prefix) => 
 			if (!owners.includes(message.author.id)) {
 				const embed = new Discord.RichEmbed()
 					.setTimestamp(Date.now())
-					.setColor(client.color.light('purple'));
+					.setColor(client.color.basic('purple'));
 				// Check type of channel and if args, return command log embed
 				if (!message.guild) {
 					if (!args.length) {
@@ -57,7 +57,7 @@ module.exports = async (client, message, command, commandName, args, prefix) => 
 				} else if (!args.length) {
 					embed.setDescription(`**${message.author.tag}** used \`${prefix}${commandName}\` in *${message.guild.name}*`);
 				} else { embed.setDescription(`**${message.author.tag}** used \`${prefix}${commandName}\` with args \`${args.join(' ')}\` in *${message.guild.name}*`); }
-				client.channels.get('592845625209389069').send(embed);
+				client.channels.get('592948839636271104').send(embed);
 			}
 		}
 		catch(err) { console.error(err); message.channel.send(`There was an error trying to execute the \`${commandName}\` command!\nIf problem persists please contact ${client.user.username} Support`); }
