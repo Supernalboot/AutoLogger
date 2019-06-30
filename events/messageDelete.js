@@ -16,7 +16,7 @@ module.exports = async (client, message) => {
 	if (!logChannel) return;
 
 	// Return any bots changing messages to reduce spam
-	if (entry.executor.bot) return;
+	if (message.user.bot) return;
 
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()
