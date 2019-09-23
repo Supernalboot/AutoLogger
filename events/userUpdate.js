@@ -5,39 +5,43 @@ module.exports = async (client, oldUser, newUser) => {
 	// Get all guilds that have this user as a member
 	const guilds = [];
 	for (const guild of client.guilds) {
-		if (guild.members.get(oldUser.id) != null) {
-			await guilds.push(guild.id);
+		if (guild[1].members.get(oldUser.id) != null) {
+			guilds.push(guild[1]);
 		}
 	} console.log(guilds);
 
+	// TODO Tyrdle: Fix this sblock of code to match with the database
 	// Check if a users tag was updated
 	if (oldUser.tag != newUser.tag) {
 
 		// Check if guild has enabled this module
 		let enabled;
-		await client.knex.from('guilddata').where('guildid', guild.id).select('username').then(async function(output) { enabled = await guild.channels.get(output[0].username); });
+		await client.knex.from('guilddata').where('guildid', guild.id).select('username').then(async function (output) { enabled = await guild.channels.get(output[0].username); });
 		if (!enabled) return;
 
-		/* TODO implement sudo code
-		SUDO CODE so people will be able to see previous names
-
-		if(!dataBase.find(newMember.id)) { 
-			dataBase.add(newMember.tag);
-		} else {
-			previousNamesArray = dataBase.find(newMember.id).previousNames
+		// Add the new user name to the previous names
+		let nameString = '';
+		for (const element of doc.prevNames) {
+			nameString += `${element}\n`;
 		}
 
-		*/
-
 		// Fill out embed information
-		const embed = await new Discord.RichEmbed()
+		const embed = new Discord.RichEmbed()
 			.setTitle(`**${oldUser.tag}** changed username`)
 			.addField('New Username', `\`${newUser.tag}\``, true)
 			.addField('User ID', `\`${newUser.id}\``, true)
-			.addField("Previous Names", "```<ADD NAMES>```")
+			.addField("Previous Names", nameString)
 			.setFooter('Time of Action')
 			.setTimestamp(Date.now())
 			.setColor(client.color.basic('orange'));
+
+		// Loop through guilds to send update
+		guilds.forEach(async element => {
+			const doc = await read(element.id, 'cz_guilds');
+			const logChannel = element.channels.get(doc.logid);
+			if (!logChannel) return;
+			logChannel.send(embed);
+		});
 
 		return client.channels.get('592845625209389069').send(embed);
 	}
@@ -47,12 +51,12 @@ module.exports = async (client, oldUser, newUser) => {
 
 		// Check if guild has enabled this module
 		let enabled;
-		await client.knex.from('guilddata').where('guildid', guild.id).select('userpfp').then(async function(output) { if (output[0]) enabled = await output[0].userpfp; });
+		await client.knex.from('guilddata').where('guildid', guild.id).select('userpfp').then(async function (output) { if (output[0]) enabled = await output[0].userpfp; });
 		if (!enabled) return;
 
 		// Grab log channel
 		let logChannel;
-		await client.knex.from('guilddata').where('guildid', guild.id).select('memberlogid').then(async function(output) { if (output[0]) logChannel = await output[0].memberlogid; });
+		await client.knex.from('guilddata').where('guildid', guild.id).select('memberlogid').then(async function (output) { if (output[0]) logChannel = await output[0].memberlogid; });
 		if (!logChannel) return;
 
 		// Fill out embed information
