@@ -43,6 +43,7 @@ module.exports = async (client, oldUser, newUser) => {
 			logChannel.send(embed);
 		});
 
+		// This is not needed when fixed
 		return client.channels.get('592845625209389069').send(embed);
 	}
 
