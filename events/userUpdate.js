@@ -18,17 +18,6 @@ module.exports = async (client, oldUser, newUser) => {
 		await client.knex.from('guilddata').where('guildid', guild.id).select('username').then(async function(output) { enabled = await guild.channels.get(output[0].username); });
 		if (!enabled) return;
 
-		/* TODO implement sudo code
-		SUDO CODE so people will be able to see previous names
-
-		if(!dataBase.find(newMember.id)) { 
-			dataBase.add(newMember.tag);
-		} else {
-			previousNamesArray = dataBase.find(newMember.id).previousNames
-		}
-
-		*/
-
 		// Fill out embed information
 		const embed = await new Discord.RichEmbed()
 			.setTitle(`**${oldUser.tag}** changed username`)
