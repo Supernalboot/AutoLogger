@@ -5,6 +5,9 @@ module.exports = async (client, message) => {
 	// Get guild variable
 	const guild = message.guild;
 
+	// Return any bot messages to reduce spam
+	if (message.author.bot) return;
+
 	// Check if guild has enabled this module
 	let enabled;
 	await client.knex.from('guilddata').where('guildid', guild.id).select('messagedelete').then(async function(output) { if (output[0]) enabled = await output[0].messagedelete; });
@@ -14,9 +17,6 @@ module.exports = async (client, message) => {
 	let logChannel;
 	await client.knex.from('guilddata').where('guildid', guild.id).select('messagelogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].messagelogid); });
 	if (!logChannel) return;
-
-	// Return any bots changing messages to reduce spam
-	if (message.user.bot) return;
 
 	// Fill out embed information
 	const embed = await new Discord.RichEmbed()

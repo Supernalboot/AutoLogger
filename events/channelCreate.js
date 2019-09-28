@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 
 module.exports = async (client, channel) => {
 
+	if (!channel.guild) return;
+	
 	// Get guild variable
 	const guild = channel.guild;
 

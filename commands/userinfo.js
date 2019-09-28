@@ -5,7 +5,7 @@ module.exports = {
 	name: 'userinfo',
 	info: 'Info about User',
 	desc: 'Shows a users information',
-	aliases: [''],
+	aliases: ['uinfo'],
 	usage: '',
 	args: false,
 	guildOnly: true,
@@ -16,25 +16,28 @@ module.exports = {
 	cooldown: 2,
 
 	/** - - Code to Run - - */
-	async execute(client, message) {
+	async execute(client, message, args) {
+		if (message.deletable) message.delete();
+
 		// Set Variables
-		const target = message.mentions.users.first() || message.author;
-		const guildTarget = message.mentions.members.first() || message.member;
-		let nickname = message.member.nickname;
+		let user; let member
+		if (args[0]) member = await client.find.member(args.join(" "), message.guild); else member = message.member; user = member.user;
+		if (!user) return;
+		let nickname = member.nickname;
 		if (!nickname) nickname = "No guild nickname.";
 
 		// Send embed
 		const embed = new Discord.RichEmbed()
-			.setTitle(`This is **${target.username}**'s information`)
-			.setThumbnail(target.avatarURL)
-			.addField("Full Username", target.tag, true)
-			.addField("ID", target.id, true)
+			.setTitle(`This is **${user.username}**'s information`)
+			.setThumbnail(user.avatarURL)
+			.addField("Full Username", user.tag, true)
+			.addField("ID", user.id, true)
 			.addField("Nickname", nickname, true)
-			.addField("Roles", guildTarget.roles.map(role => `<@&${role.id}>`).join(', '), true)
-			.addField("Joined At", `${time(guildTarget.joinedAt).format('ll')} (${time(guildTarget.joinedAt).fromNow()})`, true)
-			.addField("Account Created", `${time(target.createdAt).format('ll')} (${time(target.createdAt).fromNow()})`, true)
+			.addField("Roles", member.roles.map(role => `<@&${role.id}>`).join(', '), true)
+			.addField("Joined At", `${time(member.joinedAt).format('ll')} (${time(member.joinedAt).fromNow()})`, true)
+			.addField("Account Created", `${time(user.createdAt).format('ll')} (${time(user.createdAt).fromNow()})`, true)
 			.setColor(client.color.basic('blue'));
 		return message.channel.send(embed);
-	},
 
+	},
 };

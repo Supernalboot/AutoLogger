@@ -14,8 +14,12 @@ const client = new Discord.Client({
 });
 
 /** - - Utilities - - */
-const Color = require('./utils/color');
-client.color = new Color();
+const Colors = require('./utils/colors');
+const Finder = require('./utils/finder');
+const Tools = require('./utils/tools');
+client.color = new Colors();
+client.find = new Finder();
+client.tool = new Tools();
 
 /** - - Commands - - */
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
