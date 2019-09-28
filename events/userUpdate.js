@@ -19,12 +19,6 @@ module.exports = async (client, oldUser, newUser) => {
 		await client.knex.from('guilddata').where('guildid', guild.id).select('username').then(async function (output) { enabled = await guild.channels.get(output[0].username); });
 		if (!enabled) return;
 
-		// Add the new user name to the previous names
-		let nameString = '';
-		for (const element of doc.prevNames) {
-			nameString += `${element}\n`;
-		}
-
 		// Fill out embed information
 		const embed = new Discord.RichEmbed()
 			.setTitle(`**${oldUser.tag}** changed username`)
