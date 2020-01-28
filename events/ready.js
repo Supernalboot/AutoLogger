@@ -5,6 +5,6 @@ module.exports = async (client) => {
 	const invLink = await client.generateInvite(['ADMINISTRATOR']);
 	console.log(`INFO) ${invLink}`);
 	// Set New Activity
-	client.user.setActivity('Hackweek June 2019 🎉', { type: 'WATCHING' });
+	client.user.setActivity('Tyrdle Develop', { type: 'WATCHING' });
 	client.user.setPresence({ status: 'online' });
 };

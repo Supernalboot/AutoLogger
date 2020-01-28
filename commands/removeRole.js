@@ -8,7 +8,7 @@ module.exports = {
 	guildOnly: true,
 	ownerOnly: false,
 	group: 'server',
-	perm: 'ADMINISTRATOR',
+	perm: 'MANAGE_MEMBERS',
 	perms: [],
 	cooldown: 2,
 

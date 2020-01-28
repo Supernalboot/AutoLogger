@@ -16,16 +16,16 @@ module.exports = async (client, guild) => {
 		}
 	});
 
-	// Prefix
-	let prefix;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('prefix').then(async function(output) { prefix = await output[0].prefix; });
+// 	// Prefix
+// 	let prefix;
+// 	await client.knex.from('guilddata').where('guildid', guild.id).select('prefix').then(async function(output) { prefix = await output[0].prefix; });
 
-	// DM server owner with information
-	await guild.owner.send(`Thank you (or a member with admin) for inviting me to **${guild.name}**\n
-I am ${client.user}, and I am here to hopefully make your moderation life in this server easier!
-I can log just about anything and my logging is highly customizable! Do \`${prefix}setlogs all [Channel ID] to start logging.
-I can also peform most admin commands like, mute, kick and ban etc. (COMING SOON)\`
-Something unique about me is I can \`${prefix}encrypt\` and \`${prefix}decrypt\` messages for you.`);
+// 	// DM server owner with information
+// 	await guild.owner.send(`Thank you (or a member with admin) for inviting me to **${guild.name}**\n
+// I am ${client.user}, and I am here to hopefully make your moderation life in this server easier!
+// I can log just about anything and my logging is highly customizable! Do \`${prefix}setlogs all [Channel ID] to start logging.
+// I can also peform most admin commands like, mute, kick and ban etc. (COMING SOON)\`
+// Something unique about me is I can \`${prefix}encrypt\` and \`${prefix}decrypt\` messages for you.`);
 
 	// Guild join embed
 	const bots = guild.members.filter(m => m.user.bot).size;

@@ -30,12 +30,12 @@ module.exports = {
 		const embed = new Discord.RichEmbed()
 			.setTitle(`This is **${user.username}**'s information`)
 			.setThumbnail(user.avatarURL)
-			.addField("Full Username", user.tag, true)
-			.addField("ID", user.id, true)
-			.addField("Nickname", nickname, true)
-			.addField("Roles", member.roles.map(role => `<@&${role.id}>`).join(', '), true)
-			.addField("Joined At", `${time(member.joinedAt).format('ll')} (${time(member.joinedAt).fromNow()})`, true)
-			.addField("Account Created", `${time(user.createdAt).format('ll')} (${time(user.createdAt).fromNow()})`, true)
+			.addField("Full Username", `\`${user.tag}\``, true)
+			.addField("ID", `\`${user.id}\``, true)
+			.addField("Nickname", `\`${nickname}\``, true)
+			.addField("Roles", member.roles.filter(role => role.id != message.guild.id).map(role => `<@&${role.id}>`).join(', '), true)
+			.addField("Joined At", `${time(member.joinedAt).format('ll')}\n*(${time(member.joinedAt).fromNow()})*`, true)
+			.addField("Account Created", `${time(user.createdAt).format('ll')}\n*(${time(user.createdAt).fromNow()})*`, true)
 			.setColor(client.color.basic('blue'));
 		return message.channel.send(embed);
 
