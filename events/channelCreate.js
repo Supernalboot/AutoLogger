@@ -9,12 +9,12 @@ module.exports = async (client, channel) => {
 
 	// Check if guild has enabled this module
 	let enabled;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('channelcreate').then(async function(output) { if (output[0]) enabled = await output[0].channelcreate; });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('modules').then(async function(output) { if (output[0]) enabled = await output[0].modules.channelcreate; });
 	if (!enabled) return;
 
 	// Grab log channel
 	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].serverlogid); });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('logid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].logid.logid); });
 	if (!logChannel) return;
 
 	// Fetch latest audit, to make sure we will fetch this specific task
@@ -22,22 +22,11 @@ module.exports = async (client, channel) => {
 	const entry = await audit.entries.first();
 
 	// Format bot tag
-	let bot = '[Bot]';
+	let bot = ' [Bot]';
 	if (!entry.executor.bot) bot = '';
+	
+	let reason = ''
+	if (entry.reason) reason = `**Reason:** ${entry.reason}`
 
-	// Fill out embed information
-	const embed = await new Discord.RichEmbed()
-		.setTitle('**Channel Created**')
-		.addField('Channel', `${channel}\n\`${channel.id}\``, true)
-		.addField('Channel Type', `\`${channel.type}\``, true)
-		.addField('Created by', `\`\`${entry.executor.tag} ${bot}\`\`\n\`${entry.executor.id}\``, true)
-		.setFooter('Time of Action')
-		.setTimestamp(Date.now())
-		.setColor(client.color.basic('orange'));
-
-	// If a reason was given, add it as description
-	if (entry.reason) await embed.setDescription(`**Reason:** ${entry.reason}`);
-
-	// Send embed
-	return logChannel.send(embed);
+	return logChannel.send(`✅ Channel Created **${channel}** \`${channel.id}\` by **${entry.executor.tag}${bot}** \`${entry.executor.id}\` ${reason}`)
 };

@@ -2,7 +2,7 @@ module.exports = {
 	name: 'togglelog',
 	info: 'Toggle log modules on or off',
 	desc: 'Decide which logs you want on or off, can do almost every event',
-	aliases: ['toggle'],
+	aliases: ['toggle',],
 	usage: '(module)',
 	args: false,
 	guildOnly: true,
@@ -21,24 +21,24 @@ module.exports = {
 
 			// Grab current settings from database
 			let data;
-			await client.knex.from('guilddata').where('guildid', message.guild.id).select('modules').then(async function(output) { if (output[0]) data = await output[0]; });
+			await client.knex.from('guilddata').where('guildid', message.guild.id).select('modules').then(async function(output) { if (output[0]) data = await output[0].modules; });
 
 			// Fill out embed information
 			const embed = await new Discord.RichEmbed()
 				.setTitle('**Current Module Settings**')
-				.addField(`${data.modules.MessageDelete.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'MessageDelete', true)
-				.addField(`${data.modules.MessageUpdate.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'MessageUpdate', true)
+				.addField(`${data.messagedelete.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'Message Delete', true)
+				.addField(`${data.messageupdate.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'Message Update', true)
 				.addBlankField()
-				.addField(`${data.modules.ChannelCreate.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'ChannelCreate', true)
-				.addField(`${data.modules.ChannelDelete.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'ChannelDelete', true)
-				.addField(`${data.modules.ChannelUpdate.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'ChannelUpdate', true)
+				.addField(`${data.channelcreate.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'Channel Create', true)
+				.addField(`${data.channeldelete.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'Channel Delete', true)
+				.addField(`${data.channelupdate.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'Channel Update', true)
 				.addBlankField()
-				.addField(`${data.modules.RoleCreate.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'RoleCreate', true)
-				.addField(`${data.modules.RoleDelete.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'RoleDelete', true)
-				.addField(`${data.modules.RoleUpdate.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'RoleUpdate', true)
+				.addField(`${data.rolecreate.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'Role Create', true)
+				.addField(`${data.roledelete.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'Role Delete', true)
+				.addField(`${data.roleupdate.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'Role Update', true)
 				.addBlankField()
-				.addField(`${data.modules.Username.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'Username', true)
-				.addField(`${data.modules.PFP.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'UserPFP', true)
+				.addField(`${data.username.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'Username', true)
+				.addField(`${data.userpfp.toString().replace('true', '✅ - Enabled').replace('false', '🅾 - Disabled')}`, 'User PFP', true)
 				.setColor(client.color.basic('blue'));
 			// Send embed
 			return message.channel.send(embed);
@@ -46,20 +46,25 @@ module.exports = {
 		} else {
 
 			// See if module exists
-			let mod;
-			await client.knex.from('guilddata').where('guildid', message.guild.id).select(args[0].toLowerCase()).then(async function(output) {
-				if (output[0]) mod = await output[0][args[0].toLowerCase()];
-			}).catch(error => { message.channel.send(`Sorry, ${args[0]} is not a module.`); throw error; });
+			let modules;
+			await client.knex.from('guilddata').where('guildid', message.guild.id).select("modules").then(async function(output) {
+				if (output[0]) modules = await output[0].modules;
+			})
 
-			// Update/toggle module
-			if (mod) {
-				await client.knex.from('guilddata').where('guildid', message.guild.id).update(args[0].toLowerCase(), 'false');
-				return message.channel.send(`${args[0]} logs have been **disabled**.`);
-			} else {
-				await client.knex.from('guilddata').where('guildid', message.guild.id).update(args[0].toLowerCase(), 'true');
-				return message.channel.send(`${args[0]} logs have been **enabled**.`);
+			if (modules[args[0]] == null) return message.channel.send(`Sorry, ${args[0]} is not a available module`);
+
+			if (modules[args[0]])
+			{
+				modules[args[0]] = false;
+				message.channel.send(`${args[0]} logs have been **disabled**.`);
+			}
+			else
+			{
+				modules[args[0]] = true;
+				message.channel.send(`${args[0]} logs have been **enabled**.`);
 			}
 
+			return await client.knex.from('guilddata').where('guildid', message.guild.id).update("modules", modules);
 		}
 
 	},

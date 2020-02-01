@@ -5,7 +5,7 @@ module.exports = async (client, message) => {
 		// Prefix
 		let prefix;
 		if (message.guild) {
-			try { await client.knex.from('guilddata').where('guildid', message.guild.id).select('prefix').then(async function(output) { prefix = await output[0].prefix; }); } catch (err) { prefix = 'o!'; }
+			try { await client.knex.from('guilddata').where('guildid', message.guild.id).select('prefix').then(async function (output) { prefix = await output[0].prefix; }); } catch (err) { prefix = 's!';}
 		} else { prefix = ''; }
 		// Global Variables
 		let command;

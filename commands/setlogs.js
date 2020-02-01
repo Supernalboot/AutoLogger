@@ -17,26 +17,14 @@ module.exports = {
 		if (message.deletable) message.delete();
 
 		// Set variables
-		const group = args[0];
-		const channel = message.guild.channels.get(args[1]);
+		const channel = await client.find.channel(args[0], message.guild);
 		if (!channel) return message.channel.send(`Channel ID \`${args[1]}\` does not exist, please double check ID and try again.`);
 
-		if (group == 'member') {
-			await client.knex.from('guilddata').where('guildid', message.guild.id).update('memberlogid', channel.id).then();
-			return message.channel.send(`Member logs will now be logged in ${channel}`);
-		} else
-		if (group == 'message') {
-			await client.knex.from('guilddata').where('guildid', message.guild.id).update('messagelogid', channel.id).then();
-			return message.channel.send(`Member logs will now be logged in ${channel}`);
-		} else
-		if (group == 'server') {
-			await client.knex.from('guilddata').where('guildid', message.guild.id).update('serverlogid', channel.id).then();
-			return message.channel.send(`Member logs will now be logged in ${channel}`);
-		} else
-		if (group == 'all') {
-			await client.knex.from('guilddata').where('guildid', message.guild.id).update('memberlogid', channel.id).update('messagelogid', channel.id).update('serverlogid', channel.id).then();
-			return message.channel.send(`All logs will now be logged in ${channel}`);
-		} else { return message.channel.send(`Sorry, \`${group}\` is not a valid log group.`); }
+		let logidObject;
+		await client.knex.from('guilddata').where('guildid', message.guild.id).select('logid').then(async function (output) { logidObject = await output[0].logid; });
+		logidObject.logid = channel.id;
+		await client.knex.from('guilddata').where('guildid', message.guild.id).update('logid', logidObject);
 
+		return message.channel.send(`Log channel set to <#${channel.id}>`);
 	},
 };

@@ -10,30 +10,20 @@ module.exports = async (client, oldChannel, newChannel) => {
 
 	// Check if guild has enabled this module
 	let enabled;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('channelupdate').then(async function(output) { if (output[0]) enabled = await output[0].channelupdate; });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('modules').then(async function (output) { if (output[0]) enabled = await output[0].modules.channelupdate; });
 	if (!enabled) return;
 
 	// Grab log channel
 	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].serverlogid); });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('logid').then(async function (output) { if (output[0]) logChannel = await guild.channels.get(output[0].logid.logid); });
 	if (!logChannel) return;
 
-	// Stop bots from triggering event to reduce spam
-	if (entry.executor.bot) return;
+	// Format bot tag
+	let bot = ' [Bot]';
+	if (!entry.executor.bot) bot = '';
 
-	// Fill out embed information
-	const embed = await new Discord.RichEmbed()
-		.setTitle('**Channel Updated**')
-		.addField('Channel', `${newChannel}\n\`${newChannel.id}\``, true)
-		.addField('Channel Type', `\`${newChannel.type}\``, true)
-		.addField('Updated by', `\`\`${entry.executor.tag}\`\`\n\`${entry.executor.id}\``, true)
-		.setFooter('Time of Action')
-		.setTimestamp(Date.now())
-		.setColor(client.color.basic('orange'));
+	let reason = ''
+	if (entry.reason) reason = `**Reason:** ${entry.reason}`
 
-	// If a reason was given, add it as description
-	if (entry.reason) await embed.setDescription(`**Reason:** ${entry.reason}`);
-
-	// Send embed
-	return logChannel.send(embed);
+	return logChannel.send(`⬆️ Channel Updated **${newChannel}** \`${newChannel.id}\` by **${entry.executor.tag}${bot}** \`${entry.executor.id}\` ${reason}`)
 };
