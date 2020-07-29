@@ -1,0 +1,21 @@
+{
+    "_id": 0,
+    "isActive": true,
+    "prefix": ";",
+    "modules": {
+        "channelCreate": false,
+        "channelDelete": false,
+        "channelUpdate": false,
+        "messageDelete": false,
+        "messageUpdate": false,
+        "roleCreate": false,
+        "roleDelete": false,
+        "roleUpdate": false,
+        "userUpdate": false
+    },
+    "channels": {
+        "serverLogID": "",
+        "messageLogID": "",
+        "memberLogID": ""
+    }
+}

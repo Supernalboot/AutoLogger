@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 /** - - Packages - - */
 const fs = require('fs');
 const Discord = require('discord.js');
@@ -36,18 +41,15 @@ for (const file of commandFiles) {
 require('./tasks/events.js')(client);
 const { token, betatoken } = require('./config.json');
 
-/** - - Storage - - */
-client.knex = require('knex')(require('./knexfile.js')['server']);
-
 /** - - Eval Command - - */
-const clean = text => { if (typeof (text) === 'string') {return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203));} else {return text;} };
+const clean = text => { if (typeof (text) === 'string') { return text.replace(/`/g, '`' + String.fromCharCode(8203)).replace(/@/g, '@' + String.fromCharCode(8203)); } else { return text; } };
 client.on('message', async message => {
 	const args = message.content.split(' ').slice(1);
 	if (message.content.startsWith(';e ') && message.author.id == '200274748381462528') {
 		try {
 			const code = args.join(' ');
 			let evaled = await eval(code);
-			if (typeof evaled !== 'string') {evaled = require('util').inspect(evaled);}
+			if (typeof evaled !== 'string') { evaled = require('util').inspect(evaled); }
 			message.channel.send(clean(evaled), { code: 'xl' }, true);
 		}
 		catch (err) {
@@ -59,30 +61,59 @@ client.on('message', async message => {
 /** - - Error Event - - */
 // unhandledRejection logging
 process.on('unhandledRejection', error => {
-	const unhandleEmbed = new Discord.RichEmbed()
+	if (!error) return console.error("Error is missing!!!");
+	let errorMessage;
+	if (error.stack) { errorMessage = error.stack; } else { errorMessage = error; }
+
+	const unhandledEmbed = new Discord.MessageEmbed()
 		.setAuthor('Caught an unhandledRejection')
-		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
+		.setDescription(`\n\`\`\`\n${errorMessage}\n\`\`\``)
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('red'));
-	client.channels.get('592948839636271104').send(unhandleEmbed);
+	client.channels.cache.get('592948839636271104').send(unhandledEmbed);
 });
 // uncaught Exception logging
 process.on('uncaughtException', error => {
-	const uncaughtEmbed = new Discord.RichEmbed()
+	if (!error) return console.error("Error is missing!!!");
+	let errorMessage;
+	if (error.stack) { errorMessage = error.stack; } else { errorMessage = error; }
+
+	const uncaughtEmbed = new Discord.MessageEmbed()
 		.setAuthor('Caught an uncaughtException')
-		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
+		.setDescription(`\n\`\`\`\n${errorMessage}\n\`\`\``)
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('red'));
-	client.channels.get('592948839636271104').send(uncaughtEmbed);
+	client.channels.cache.get('592948839636271104').send(uncaughtEmbed);
 });
+
+// Process warning.
+process.on('warning', error => {
+	if (!error) console.error("Error is missing!!!");
+	let errorMessage;
+	if (error.stack) { errorMessage = error.stack; } else { errorMessage = error; }
+
+	console.error(error.stack);
+
+	const errorEmbed = new Discord.MessageEmbed()
+		.setAuthor('Caught a Warning')
+		.setDescription(`\n\`\`\`\n${errorMessage}\n\`\`\``)
+		.setTimestamp(Date.now())
+		.setColor(client.color.basic('red'));
+	client.channels.cache.get('592948839636271104').send(errorEmbed);
+});
+
 // Error logging
 client.on('error', error => {
-	const errorEmbed = new Discord.RichEmbed()
+	if (!error) console.error("Error is missing!!!");
+	let errorMessage;
+	if (error.stack) { errorMessage = error.stack; } else { errorMessage = error; }
+
+	const errorEmbed = new Discord.MessageEmbed()
 		.setAuthor('Caught an Error')
-		.setDescription(`\n\`\`\`\n${error.stack}\n\`\`\``)
+		.setDescription(`\n\`\`\`\n${errorMessage}\n\`\`\``)
 		.setTimestamp(Date.now())
 		.setColor(client.color.basic('red'));
-	client.channels.get('592948839636271104').send(errorEmbed);
+	client.channels.cache.get('592948839636271104').send(errorEmbed);
 });
 
 /** - - Client Login - - */

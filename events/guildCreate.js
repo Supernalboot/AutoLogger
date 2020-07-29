@@ -1,30 +1,29 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 const Discord = require('discord.js');
+const read = require('../functions/databaseRead');
+const write = require('../functions/databaseWrite');
 
 module.exports = async (client, guild) => {
-	guild.fetchMembers('', guild.members.size);
+	guild.members.fetch();
 
-	// Add information to table
-	await client.knex.from('guilddata').where('guildid', guild.id).then(async function(output) {
-		if (!output[0]) {
-			// Make database changes
-			client.knex('guilddata')
-				.insert([{
-					guildid: guild.id,
-				}]).then(console.log(`[DATA] Guild ${guild.id} joined, database has been filled!`));
-		} else {
-			client.knex.from('guilddata').where('guildid', guild.id).update('isactive', true).then(console.log(`[DATA] Guild ${guild.id} rejoined, isActive is now TRUE!`));
-		}
-	});
+	// Read for existing document
+	let doc = await read(guild.id, 'sekure_servers', undefined, client);
+	// Create document if no doc is found
+	if (!doc) { doc = require('../templates/server.json'); doc._id = guild.id; await write(doc, 'sekure_servers', undefined, client); }
 
 	// Prefix
 	let prefix;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('prefix').then(async function(output) { prefix = await output[0].prefix; });
+	await client.knex.from('guilddata').where('guildid', guild.id).select('prefix').then(async function (output) { prefix = await output[0].prefix; });
 
 	// DM server owner with information
 	await guild.owner.send(`Thank you (or a member with admin) for inviting me to **${guild.name}**\n
 I am ${client.user}, and I am here to hopefully make your moderation life in this server easier!
 I can log just about anything and my logging is highly customizable! Do \`${prefix}setlogs all [Channel ID] to start logging.
-I can also peform most admin commands like, mute, kick and ban etc. (COMING SOON)\`
+I can also perform most admin commands like, mute, kick and ban etc. (COMING SOON)\`
 Something unique about me is I can \`${prefix}encrypt\` and \`${prefix}decrypt\` messages for you.`);
 
 	// Guild join embed

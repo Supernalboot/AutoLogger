@@ -1,12 +1,17 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 // Grab our Required Modules
-CryptoJS = require('crypto-js');
-Discord = require('discord.js');
+const CryptoJS = require('crypto-js');
+const Discord = require('discord.js');
 
 module.exports = {
 	name: 'encrypt',
 	info: 'Encrypt a message',
 	desc: 'Encrypt a message with a pass code to send to other users',
-	aliases: ['encry'],
+	aliases: ['encry', 'encryption'],
 	usage: '',
 	args: false,
 	guildOnly: false,
@@ -44,7 +49,7 @@ module.exports = {
 			code = codes.first().content;
 			// Delete original message
 			await end.delete();
-		}).catch(() => {
+		}).catch((err) => {
 			// If DMs fail let them know
 			return message.reply(' it seems like I can\'t DM you! Do you have DMs disabled?');
 		});
@@ -56,7 +61,7 @@ module.exports = {
 		} catch(err) { return message.author.send('There was a problem encrypting your message, if the problem persists please contact support.'); }
 
 		// Create our discord embed
-		const embed = new Discord.RichEmbed()
+		const embed = new Discord.MessageEmbed()
 			.setTitle('Message Encryption')
 			.addField('Encrypted Message', encryption)
 			.setFooter(`Key: ${code}`)

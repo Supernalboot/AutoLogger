@@ -1,12 +1,17 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 // Grab our Required Modules
-CryptoJS = require('crypto-js');
-Discord = require('discord.js');
+const CryptoJS = require('crypto-js');
+const Discord = require('discord.js');
 
 module.exports = {
 	name: 'decrypt',
 	info: 'Decrypt a message',
 	desc: 'Decrypt a message with a pass code to view content',
-	aliases: ['decry'],
+	aliases: ['decry', 'decryption'],
 	usage: '',
 	args: false,
 	guildOnly: false,
@@ -30,7 +35,7 @@ module.exports = {
 			if (message.channel.type === 'dm') return;
 			message.reply(' I\'ve sent you a DM!');
 			// Await a reply
-			msgs = await dm.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
+			const msgs = await dm.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
 			// Save msg in a variable
 			msg = msgs.first().content;
 			// Delete original messages
@@ -39,7 +44,7 @@ module.exports = {
 			// Send messaging asking for the key to encryption
 			const end = await message.author.send('**Got it!** What is the key to this message?\n*The person who sent the message should have provided one.*');
 			// Await a reply
-			codes = await dm.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
+			const codes = await dm.channel.awaitMessages(reply => reply.author.id === message.author.id, { max: 1, time: 60000 });
 			// Save msg in a variable
 			code = codes.first().content;
 			// Delete original message
@@ -56,7 +61,7 @@ module.exports = {
 			decryption = decryptionBytes.toString(CryptoJS.enc.Utf8);
 
 			// Create our discord embed
-			const embed = new Discord.RichEmbed()
+			const embed = new Discord.MessageEmbed()
 				.addField('Decrypted Message', decryption)
 				.setColor(client.color.basic('yellow'));
 

@@ -1,3 +1,12 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
+
+const read = require('../functions/databaseRead');
+const write = require('../functions/databaseWrite');
+
 module.exports = {
 	name: 'setlogs',
 	info: 'Set which channel to log to',
@@ -16,27 +25,34 @@ module.exports = {
 	async execute(client, message, args) {
 		if (message.deletable) message.delete();
 
+		const doc = await read(message.guild.id, 'sekure_servers', undefined, client);
+
 		// Set variables
 		const group = args[0];
-		const channel = message.guild.channels.get(args[1]);
+		const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[1]);
 		if (!channel) return message.channel.send(`Channel ID \`${args[1]}\` does not exist, please double check ID and try again.`);
 
 		if (group == 'member') {
-			await client.knex.from('guilddata').where('guildid', message.guild.id).update('memberlogid', channel.id).then();
+			doc.channels.memberLogID = channel.id;
+			await write(doc, 'sekure_servers', undefined, client);
 			return message.channel.send(`Member logs will now be logged in ${channel}`);
 		} else
-		if (group == 'message') {
-			await client.knex.from('guilddata').where('guildid', message.guild.id).update('messagelogid', channel.id).then();
-			return message.channel.send(`Member logs will now be logged in ${channel}`);
-		} else
-		if (group == 'server') {
-			await client.knex.from('guilddata').where('guildid', message.guild.id).update('serverlogid', channel.id).then();
-			return message.channel.send(`Member logs will now be logged in ${channel}`);
-		} else
-		if (group == 'all') {
-			await client.knex.from('guilddata').where('guildid', message.guild.id).update('memberlogid', channel.id).update('messagelogid', channel.id).update('serverlogid', channel.id).then();
-			return message.channel.send(`All logs will now be logged in ${channel}`);
-		} else { return message.channel.send(`Sorry, \`${group}\` is not a valid log group.`); }
-
+			if (group == 'message') {
+				doc.channels.messageLogID = channel.id;
+				await write(doc, 'sekure_servers', undefined, client);
+				return message.channel.send(`Message logs will now be logged in ${channel}`);
+			} else
+				if (group == 'server') {
+					doc.channels.serverLogID = channel.id;
+					await write(doc, 'sekure_servers', undefined, client);
+					return message.channel.send(`Server logs will now be logged in ${channel}`);
+				} else
+					if (group == 'all') {
+						doc.channels.memberLogID = channel.id;
+						doc.channels.messageLogID = channel.id;
+						doc.channels.serverLogID = channel.id;
+						await write(doc, 'sekure_servers', undefined, client);
+						return message.channel.send(`All logs will now be logged in ${channel}`);
+					} else { return message.channel.send(`Sorry, \`${group}\` is not a valid log group.`); }
 	},
 };
