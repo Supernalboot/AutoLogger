@@ -4,7 +4,7 @@
  *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
  */
 const PouchDB = require('pouchdb-node');
-let { publicIP, username, password } = require('../data/botsettings.json');
+let { publicIP, username, password } = require('../config.json');
 const CryptoJS = require("crypto-js");
 const fs = require('fs');
 
@@ -37,7 +37,7 @@ module.exports = async (data, database, bulk = false, client = undefined) => {
         const publicIp = require('public-ip');
 
         // Change Public IP if connection failed
-        fs.readFile('./data/botsettings.json', async (err, data) => {
+        fs.readFile('./config.json', async (err, data) => {
             if (err) throw err;
 
             const fileData = JSON.parse(data);
@@ -49,7 +49,7 @@ module.exports = async (data, database, bulk = false, client = undefined) => {
             db = new PouchDB(`http://${username}:${password}@${fileData.publicIP}:5984/${database}`);
             await db.info();
 
-            fs.writeFile("./data/botsettings.json", JSON.stringify(fileData), (err) => {
+            fs.writeFile("./config.json", JSON.stringify(fileData), (err) => {
                 if (err) throw err;
                 console.log(`Public IP successfully changed.`);
             });
@@ -59,7 +59,7 @@ module.exports = async (data, database, bulk = false, client = undefined) => {
 
     if (bulk == false) {
         await db.put(data).catch(async (err) => {
-            console.error(`Writing to database: ${database}`, err);
+            console.error(`Writing to database: ${database}`, err.stack);
 
             await db.put(data).catch((err) => {
                 console.log("second attempt unsuccessful");
@@ -74,17 +74,17 @@ module.exports = async (data, database, bulk = false, client = undefined) => {
     }
 
     // Encrypt Data
-    fs.readFile('./data/botsettings.json', async (err, data) => {
+    fs.readFile('./config.json', async (err, data) => {
         if (err) throw err;
 
         const fileData = JSON.parse(data);
 
         // Encrypt
         fileData.username = CryptoJS.AES.encrypt(username, client.user.id).toString();
-        fileData.password = CryptoJS.AES.encrypt(username, client.user.id).toString();
+        fileData.password = CryptoJS.AES.encrypt(password, client.user.id).toString();
 
 
-        fs.writeFile("./data/botsettings.json", JSON.stringify(fileData), (err) => {
+        fs.writeFile("./config.json", JSON.stringify(fileData), (err) => {
             if (err) throw err;
         });
     });

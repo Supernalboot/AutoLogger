@@ -22,37 +22,39 @@ module.exports = {
 		// Check if the user who used this command is allowed to give people roles
 		if (!message.member.hasPermission("MANAGE_MEMBERS")) return message.reply("You don't have manage members permission");
 
-		// Set the member we need to give the role too
-		const rMember = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+		// Check if we can find a user
+		const rMember = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]));
+		if (!rMember) return message.reply("Couldn't find that user");
 
-		// triggered if no user was found
-		if (!rMember) return message.reply("couldn't find that user");
+		// Check for our role name
+		const roleName = args.slice(1, args.length).join(' ');
+		if (!roleName) return message.reply("You didn't specify a role");
 
-		// Grab what role we want to give the user
-		const role = args.slice(1).join(" ");
+		// Check if guild will allow given role
+		let role;
+		// Filter by name
+		const result = roleArray.filter(r => r.name == roleName);
 
-		// Triggered if no role was found
-		if (!role) return message.reply("You didn't specify a role");
+		// Grab first mentioned role
+		if (result.length == 0) role = message.mentions.roles.first();
 
-		// Find the role in the guild
-		const gRole = message.guild.roles.find('name', role);
+		// Check if user has role
+		if (rMember.roles.cache.has(role)) return message.reply("They already have that role");
 
-		// Triggered if no role was found
-		if (!gRole) return message.reply("Couldnt find that role");
+		// Check role position
+		if (role.position >= message.guild.members.cache.get(client.user.id).roles.highest) return message.channel.send(`Requested role ${role} is higher then my current highest role ${message.guild.members.cache.get(client.user.id).roles.highest}. I am unable to give this user the role`);
 
-		// Triggered if user already has the role
-		if (rMember.roles.has(gRole.id)) return message.reply("they already have that role");
+		// Add role
+		await rMember.roles.add(role);
 
-		// Wait to give the user their role
-		await (rMember.addRole(gRole.id));
-
-		// Send message to the user getting the role. CATCH if the user couldnt be messaged
+		// Send message to the user getting the role. CATCH if the user couldn't be messaged
 		try {
-			message.delete().catch(O_o => { console.log(O_o); });
-			await message.channel.send(`${rMember} has been given the role ` + "`" + `${gRole.name}` + "`");
-			return;
+			message.delete().catch(O_o => console.log(O_o));
+			await rMember.send(`You have been given the role \`${role.name}\` in \`${message.guild}\``);
+			return message.channel.send("I have successfully given the role to the user!");
 		} catch (e) {
-			console.log(e);
+			message.delete().catch(O_o => console.log(O_o));
+			message.channel.send(`${rMember} has been given the role ${role}`);
 		}
 	},
 };

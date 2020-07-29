@@ -11,7 +11,7 @@ module.exports = {
 	name: 'decrypt',
 	info: 'Decrypt a message',
 	desc: 'Decrypt a message with a pass code to view content',
-	aliases: ['decry'],
+	aliases: ['decry', 'decryption'],
 	usage: '',
 	args: false,
 	guildOnly: false,
@@ -61,7 +61,7 @@ module.exports = {
 			decryption = decryptionBytes.toString(CryptoJS.enc.Utf8);
 
 			// Create our discord embed
-			const embed = new Discord.RichEmbed()
+			const embed = new Discord.MessageEmbed()
 				.addField('Decrypted Message', decryption)
 				.setColor(client.color.basic('yellow'));
 

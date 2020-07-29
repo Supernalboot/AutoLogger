@@ -53,7 +53,7 @@ module.exports = {
 			// See if module exists
 			let mod = doc.modules;
 
-			if (!mod) return message.channel.send("Provided arguement is not a module!");
+			if (!mod) return message.channel.send("Provided argument is not a module!");
 
 			// Update/toggle module
 			if (mod) {

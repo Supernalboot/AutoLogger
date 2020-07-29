@@ -10,6 +10,7 @@ module.exports = async (client, channel) => {
 
 	// Get guild variable
 	const guild = channel.guild;
+	if(!guild) return;
 
 	// Collect our Doc.
 	const doc = await read(guild.id, 'sekure_servers', undefined, client);

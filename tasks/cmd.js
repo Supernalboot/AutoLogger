@@ -64,12 +64,12 @@ module.exports = async (client, message, command, commandName, args, prefix) => 
 				} else if (!args.length) {
 					embed.setDescription(`**${message.author.tag}** used \`${prefix}${commandName}\` in *${message.guild.name} (${message.guild.id})*`);
 				} else { embed.setDescription(`**${message.author.tag}** used \`${prefix}${commandName}\` with args \`${args.join(' ')}\` in *${message.guild.name}*`); }
-				client.channels.cache.get('579593248365084673').send(embed);
+				client.channels.cache.get('737898027729027154').send(embed);
 			}
 
 			// Execute command
 			command.execute(client, message, args, Discord, prefix, owners);
 		}
-		catch (err) { console.error(err); message.channel.send(`There was an error trying to execute the \`${commandName}\` command!\nIf problem persists please contact ${client.user.username} Support`); client.channels.cache.get('579593248365084673').send(`There was an error trying to execute the \`${commandName}\` command!`); }
-	} catch (err) { client.channels.cache.get('579593248365084673').send(`An error occurred during the command handler, here are the details!\n**Guild** ${message.guild.name} (${message.guild.id})\n**Message** ${message.content}\n\`\`\`${err.stack}\`\`\``); }
+		catch (err) { console.error(err); message.channel.send(`There was an error trying to execute the \`${commandName}\` command!\nIf problem persists please contact ${client.user.username} Support`); client.channels.cache.get('737898027729027154').send(`There was an error trying to execute the \`${commandName}\` command!`); }
+	} catch (err) { client.channels.cache.get('737898027729027154').send(`An error occurred during the command handler, here are the details!\n**Guild** ${message.guild.name} (${message.guild.id})\n**Message** ${message.content}\n\`\`\`${err.stack}\`\`\``); }
 };

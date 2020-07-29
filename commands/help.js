@@ -37,22 +37,22 @@ module.exports = {
 			else prefixtxt = '';
 			// Owner embed
 			if (owners.includes(message.author.id)) {
-				helpEmbed = new Discord.RichEmbed()
+				helpEmbed = new Discord.MessageEmbed()
 					.addField('**Sekure** Commands', `${prefixtxt}
 **Client** Commands:\n${clientCommands}\n\n**Moderation** Commands:\n${modCommands}\n\n**Crypto** Commands:\n${cryptoCommands}\n\n**Server** Commands:\n${serverCommands}\n
 **Owner Commands**:\n${ownerCommands}`)
-					.addBlankField()
+					.addField('\u200b', '\u200b')
 					.setTimestamp(`${Date()}`)
 					.setColor(client.color.basic('blue'));
 			}
 			// Normal embed
 			else {
-				helpEmbed = new Discord.RichEmbed()
+				helpEmbed = new Discord.MessageEmbed()
 					.addField('**Sekure** Commands', `${prefixtxt}
 **Client** Commands:\n${clientCommands}\n\n**Moderation** Commands:\n${modCommands}\n\n**Crypto** Commands:\n${cryptoCommands}\n\n**Server** Commands:\n${serverCommands}\n
 For more information do \`${prefix}help\` \`client/moderation/server\`
 or for command specific help do \`${prefix}help\` \`command\``)
-					.addBlankField()
+					.addField('\u200b', '\u200b')
 					.setTimestamp(`${Date()}`)
 					.setColor(client.color.basic('blue'));
 			}
@@ -71,7 +71,7 @@ or for command specific help do \`${prefix}help\` \`command\``)
 		// Owner embed
 		if (args[0].toLowerCase() === 'owner' && owners.includes(message.author.id)) {
 			const groupCommands = commands.filter(command => command.group === args[0]).map(command => `**${command.name}** \`${command.info}\``).join('\n');
-			groupEmbed = new Discord.RichEmbed()
+			groupEmbed = new Discord.MessageEmbed()
 				.addField(`**${args[0].replace(/^\w/, c => c.toUpperCase())}** Commands`, `${groupCommands}`)
 				.setTimestamp(`${Date()}`)
 				.setColor(client.color.basic('blue'));
@@ -80,7 +80,7 @@ or for command specific help do \`${prefix}help\` \`command\``)
 		// Normal embed
 		else if (args[0].toLowerCase() === 'client' || args[0].toLowerCase() === 'moderation' || args[0].toLowerCase() === 'server' || args[0].toLowerCase() === 'crypto') {
 			const groupCommands = commands.filter(command => command.group === args[0]).map(command => `**${command.name}** \`${command.info}\``).join('\n');
-			groupEmbed = new Discord.RichEmbed()
+			groupEmbed = new Discord.MessageEmbed()
 				.addField(`**${args[0].replace(/^\w/, c => c.toUpperCase())}** Commands`, `${groupCommands}\n\nFor command specific help do \`${prefix}help\` \`command\``)
 				.setTimestamp(`${Date()}`)
 				.setColor(client.color.basic('blue'));
@@ -113,7 +113,7 @@ or for command specific help do \`${prefix}help\` \`command\``)
 			await data.push(`**Permission:** ${command.perm}`);
 			await data.push(`**Cooldown:** ${command.cooldown} second(s)`);
 			// Send embed
-			const cmdEmbed = new Discord.RichEmbed()
+			const cmdEmbed = new Discord.MessageEmbed()
 				.addField(`**${command.name.replace(/^\w/, c => c.toUpperCase())}** Command`, data)
 				.setFooter(`Requested by: ${message.author.tag}`, message.author.displayAvatarURL)
 				.setTimestamp(`${Date()}`)
