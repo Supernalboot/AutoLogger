@@ -9,6 +9,7 @@
         "messageDelete": false,
         "messageUpdate": false,
         "roleCreate": false,
+        "roleDelete": false,
         "roleUpdate": false,
         "userUpdate": false
     },

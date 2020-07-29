@@ -25,11 +25,11 @@ module.exports = {
 	async execute(client, message, args) {
 		if (message.deletable) message.delete();
 
-		const doc = await read(guild.id, 'sekure_servers', undefined, client);
+		const doc = await read(message.guild.id, 'sekure_servers', undefined, client);
 
 		// Set variables
 		const group = args[0];
-		const channel = message.guild.channels.get(args[1]);
+		const channel = message.mentions.channels.first() || message.guild.channels.cache.get(args[1]);
 		if (!channel) return message.channel.send(`Channel ID \`${args[1]}\` does not exist, please double check ID and try again.`);
 
 		if (group == 'member') {
@@ -40,12 +40,12 @@ module.exports = {
 			if (group == 'message') {
 				doc.channels.messageLogID = channel.id;
 				await write(doc, 'sekure_servers', undefined, client);
-				return message.channel.send(`Member logs will now be logged in ${channel}`);
+				return message.channel.send(`Message logs will now be logged in ${channel}`);
 			} else
 				if (group == 'server') {
 					doc.channels.serverLogID = channel.id;
 					await write(doc, 'sekure_servers', undefined, client);
-					return message.channel.send(`Member logs will now be logged in ${channel}`);
+					return message.channel.send(`Server logs will now be logged in ${channel}`);
 				} else
 					if (group == 'all') {
 						doc.channels.memberLogID = channel.id;

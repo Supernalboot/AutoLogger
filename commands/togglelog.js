@@ -5,6 +5,8 @@
  */
 
 const read = require('../functions/databaseRead');
+const write = require('../functions/databaseWrite');
+const Discord = require('discord.js');
 
 module.exports = {
 	name: 'togglelog',
@@ -33,17 +35,19 @@ module.exports = {
 			// Fill out embed information
 			const embed = await new Discord.MessageEmbed()
 				.setTitle('**Current Module Toggles**')
-				.addField('MessageDelete', `${data.messageDelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('MessageUpdate', `${data.messageUpdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('ChannelCreate', `${data.channelCreate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('ChannelDelete', `${data.channelDelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('ChannelUpdate', `${data.channelUpdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('RoleCreate', `${data.roleCreate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('RoleDelete', `${data.roleDelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('RoleUpdate', `${data.roleUpdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('UserPFP', `${data.userpfp.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('Username', `${data.username.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.setDescription('To toggle a module on or off copy the module name exactly and paste after the command name.')
+				.addField('MessageDelete', `${data.modules.messageDelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('MessageUpdate', `${data.modules.messageUpdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('ChannelCreate', `${data.modules.channelCreate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('ChannelDelete', `${data.modules.channelDelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('ChannelUpdate', `${data.modules.channelUpdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('RoleCreate', `${data.modules.roleCreate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('RoleDelete', `${data.modules.roleDelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('RoleUpdate', `${data.modules.roleUpdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('UserUpdate', `${data.modules.userUpdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
 				.setColor(client.color.basic('blue'));
+			//				.addField('UserPFP', `${data.userpfp.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+			// 				.addField('Username', `${data.username.toString().replace('true', '✅').replace('false', '🅾')}`, true)
 			// Send embed
 			return message.channel.send(embed);
 
@@ -51,16 +55,17 @@ module.exports = {
 
 			const doc = await read(message.guild.id, 'sekure_servers', undefined, client);
 			// See if module exists
-			let mod = doc.modules;
-
+			const mod = doc.modules[args[0]];
 			if (!mod) return message.channel.send("Provided argument is not a module!");
 
 			// Update/toggle module
 			if (mod) {
-				await client.knex.from('guilddata').where('guildid', message.guild.id).update(args[0].toLowerCase(), 'false');
+				doc.modules[args[0]] = false;
+				await write(message.guild.id, 'sekure_servers', undefined, client);
 				return message.channel.send(`\`${args[0]}\` logs have been **disabled**.`);
 			} else {
-				await client.knex.from('guilddata').where('guildid', message.guild.id).update(args[0].toLowerCase(), 'true');
+				doc.modules[args[0]] = true;
+				await write(message.guild.id, 'sekure_servers', undefined, client);
 				return message.channel.send(`\`${args[0]}\` logs have been **enabled**.`);
 			}
 
