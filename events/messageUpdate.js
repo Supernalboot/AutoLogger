@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 const Discord = require('discord.js');
 
 module.exports = async (client, oldMessage, newMessage) => {
@@ -8,14 +13,14 @@ module.exports = async (client, oldMessage, newMessage) => {
 	// Return any bots changing messages to reduce spam
 	if (oldMessage.author.bot) return;
 
+	// Collect our Doc.
+	const doc = await read(guild.id, 'sekure_servers', undefined, client);
+
 	// Check if guild has enabled this module
-	let enabled;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('channelcreate').then(async function(output) { if (output[0]) enabled = await output[0].channelcreate; });
-	if (!enabled) return;
+	if (doc.modules.messageUpdate == false) return;
 
 	// Grab log channel
-	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('messagelogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].messagelogid); });
+	const logChannel = doc.channels.messageLogID;
 	if (!logChannel) return;
 
 	// Fill out embed information

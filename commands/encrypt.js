@@ -1,6 +1,11 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 // Grab our Required Modules
-CryptoJS = require('crypto-js');
-Discord = require('discord.js');
+const CryptoJS = require('crypto-js');
+const Discord = require('discord.js');
 
 module.exports = {
 	name: 'encrypt',

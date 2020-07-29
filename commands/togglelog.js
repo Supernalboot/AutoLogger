@@ -1,9 +1,17 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
+
+const read = require('../functions/databaseRead');
+
 module.exports = {
 	name: 'togglelog',
 	info: 'Toggle log modules on or off',
 	desc: 'Decide which logs you want on or off, can do almost every event',
 	aliases: ['toggle'],
-	usage: '(module)',
+	usage: ['(module)'],
 	args: false,
 	guildOnly: true,
 	ownerOnly: false,
@@ -20,20 +28,19 @@ module.exports = {
 		if (!args.length) {
 
 			// Grab current settings from database
-			let data;
-			await client.knex.from('guilddata').where('guildid', message.guild.id).select('*').then(async function(output) { if (output[0]) data = await output[0]; });
+			const data = await read(message.guild.id, 'sekure_servers', undefined, client);
 
 			// Fill out embed information
-			const embed = await new Discord.RichEmbed()
+			const embed = await new Discord.MessageEmbed()
 				.setTitle('**Current Module Toggles**')
-				.addField('MessageDelete', `${data.messagedelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('MessageUpdate', `${data.messageupdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('ChannelCreate', `${data.channelcreate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('ChannelDelete', `${data.channeldelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('ChannelUpdate', `${data.channelupdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('RoleCreate', `${data.rolecreate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('RoleDelete', `${data.roledelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
-				.addField('RoleUpdate', `${data.roleupdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('MessageDelete', `${data.messageDelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('MessageUpdate', `${data.messageUpdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('ChannelCreate', `${data.channelCreate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('ChannelDelete', `${data.channelDelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('ChannelUpdate', `${data.channelUpdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('RoleCreate', `${data.roleCreate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('RoleDelete', `${data.roleDelete.toString().replace('true', '✅').replace('false', '🅾')}`, true)
+				.addField('RoleUpdate', `${data.roleUpdate.toString().replace('true', '✅').replace('false', '🅾')}`, true)
 				.addField('UserPFP', `${data.userpfp.toString().replace('true', '✅').replace('false', '🅾')}`, true)
 				.addField('Username', `${data.username.toString().replace('true', '✅').replace('false', '🅾')}`, true)
 				.setColor(client.color.basic('blue'));
@@ -42,11 +49,11 @@ module.exports = {
 
 		} else {
 
+			const doc = await read(message.guild.id, 'sekure_servers', undefined, client);
 			// See if module exists
-			let mod;
-			await client.knex.from('guilddata').where('guildid', message.guild.id).select(args[0].toLowerCase()).then(async function(output) {
-				if (output[0]) mod = await output[0][args[0].toLowerCase()];
-			}).catch(error => { message.channel.send(`Sorry, ${args[0]} is not a module.`); throw error; });
+			let mod = doc.modules;
+
+			if (!mod) return message.channel.send("Provided arguement is not a module!");
 
 			// Update/toggle module
 			if (mod) {

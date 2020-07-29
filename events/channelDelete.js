@@ -1,22 +1,28 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 const Discord = require('discord.js');
+const read = require("../functions/databaseRead");
 
 module.exports = async (client, channel) => {
 	// Get guild variable
 	const guild = channel.guild;
 
+	// Collect our Doc.
+	const doc = await read(guild.id, 'sekure_servers', undefined, client);
+
+	// Check if guild has enabled this module
+	if (doc.modules.channelDelete == false) return;
+
+	// Grab log channel
+	const logChannel = doc.channels.serverLogID;
+	if (!logChannel) return;
+
 	// Fetch latest audit, to make sure we will fetch this specific task
 	const audit = await guild.fetchAuditLogs({ limit: 1 });
 	const entry = await audit.entries.first();
-
-	// Check if guild has enabled this module
-	let enabled;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('channeldelete').then(async function(output) { if (output[0]) enabled = await output[0].channeldelete; });
-	if (!enabled) return;
-
-	// Grab log channel
-	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].serverlogid); });
-	if (!logChannel) return;
 
 	// Format bot tag
 	let bot = '[Bot]';

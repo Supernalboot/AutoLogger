@@ -1,8 +1,12 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 const Discord = require('discord.js');
 const { owners } = require('../config.json');
 
 module.exports = async (client, message, command, commandName, args, prefix) => {
-
 	/** - - Command Handler - - */
 	try {
 		// Check for args
@@ -14,16 +18,20 @@ module.exports = async (client, message, command, commandName, args, prefix) => 
 		if (message.guild) {
 			if (command.perm !== 'ANY') {
 				const userBitfield = new Discord.Permissions(message.member.permissionsIn(message.channel).bitfield);
-				if (!userBitfield.has(command.perm, true)) {return message.channel.send(`You need the \`${command.perm}\` permission to use the \`${commandName}\` command in ${message.channel}!`)
-					.catch(err => { return message.author.send(`You need the \`${command.perm}\` perms to use the \`${commandName}\` command in ${message.channel}, please make sure I have all of them!`).catch(err); }); }
+				if (!userBitfield.has(command.perm, true)) {
+					return message.channel.send(`You need the \`${command.perm}\` permission to use the \`${commandName}\` command in ${message.channel}!`)
+						.catch(err => { return message.author.send(`You need the \`${command.perm}\` perms to use the \`${commandName}\` command in ${message.channel}, please make sure I have all of them!`).catch(err); });
+				}
 			}
 		}
 		// Check client perms and message if not correct
 		const perms = command.perms.join(', ').replace(/[_]/g, ' ');
 		if (message.guild) {
 			const bitfield = new Discord.Permissions(message.guild.me.permissionsIn(message.channel).bitfield);
-			if (!bitfield.has(command.perms, true)) { return message.channel.send(`I need \`${perms}\` perms to use the \`${commandName}\` command in ${message.channel}, please make sure I have all of them!`)
-				.catch(err => { return message.author.send(`I need \`${perms}\` perms to use the \`${commandName}\` command in ${message.channel}, please make sure I have all of them!`).catch(err); }); }
+			if (!bitfield.has(command.perms, true)) {
+				return message.channel.send(`I need \`${perms}\` perms to use the \`${commandName}\` command in ${message.channel}, please make sure I have all of them!`)
+					.catch(err => { return message.author.send(`I need \`${perms}\` perms to use the \`${commandName}\` command in ${message.channel}, please make sure I have all of them!`).catch(err); });
+			}
 		}
 		// Check command cooldown
 		if (!owners.includes(message.author.id)) {
@@ -33,7 +41,7 @@ module.exports = async (client, message, command, commandName, args, prefix) => 
 			// Check if user has cooldown
 			if (timestamps.has(message.author.id)) {
 				const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-				// Check if user has passwed cooldown
+				// Check if user has password cooldown
 				if (Date.now() < expirationTime) {
 					const timeLeft = (expirationTime - Date.now()) / 1000;
 					return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${prefix}${commandName}\` command.`);
@@ -43,10 +51,9 @@ module.exports = async (client, message, command, commandName, args, prefix) => 
 		}
 		// Run the Command
 		try {
-			command.execute(client, message, args, Discord, prefix, owners);
 			// Check if owner or not
 			if (!owners.includes(message.author.id)) {
-				const embed = new Discord.RichEmbed()
+				const embed = new Discord.MessageEmbed()
 					.setTimestamp(Date.now())
 					.setColor(client.color.basic('purple'));
 				// Check type of channel and if args, return command log embed
@@ -55,12 +62,14 @@ module.exports = async (client, message, command, commandName, args, prefix) => 
 						embed.setDescription(`**${message.author.tag}** used \`${prefix}${commandName}\` in DMs`);
 					} else { embed.setDescription(`**${message.author.tag}** used \`${prefix}${commandName}\` with args \`${args.join(' ')}\` in DMs`); }
 				} else if (!args.length) {
-					embed.setDescription(`**${message.author.tag}** used \`${prefix}${commandName}\` in *${message.guild.name}*`);
+					embed.setDescription(`**${message.author.tag}** used \`${prefix}${commandName}\` in *${message.guild.name} (${message.guild.id})*`);
 				} else { embed.setDescription(`**${message.author.tag}** used \`${prefix}${commandName}\` with args \`${args.join(' ')}\` in *${message.guild.name}*`); }
-				client.channels.get('592948839636271104').send(embed);
+				client.channels.cache.get('579593248365084673').send(embed);
 			}
-		}
-		catch(err) { console.error(err); message.channel.send(`There was an error trying to execute the \`${commandName}\` command!\nIf problem persists please contact ${client.user.username} Support`); }
-	} catch (err) { client.channels.get('592948839636271104').send(`An error occured during the command handler, here are the details!\n**Guild** ${message.guild.name} (${message.guild.id})\n**Message** ${message.content}\n\`\`\`${err.stack}\`\`\``); }
 
+			// Execute command
+			command.execute(client, message, args, Discord, prefix, owners);
+		}
+		catch (err) { console.error(err); message.channel.send(`There was an error trying to execute the \`${commandName}\` command!\nIf problem persists please contact ${client.user.username} Support`); client.channels.cache.get('579593248365084673').send(`There was an error trying to execute the \`${commandName}\` command!`); }
+	} catch (err) { client.channels.cache.get('579593248365084673').send(`An error occurred during the command handler, here are the details!\n**Guild** ${message.guild.name} (${message.guild.id})\n**Message** ${message.content}\n\`\`\`${err.stack}\`\`\``); }
 };

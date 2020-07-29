@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 
 module.exports = {
     name: 'STB',
@@ -21,11 +26,11 @@ module.exports = {
                 return "00000000".slice(String(num).length) + num;
             }
 
-            return str.replace(/[\s\S]/g, function (str) {
+            return str.replace(/[\s\S]/g, function(str) {
                 str = zeroPad(str.charCodeAt().toString(2));
                 return !1 == spaceSeparatedOctets ? str : str + " ";
             });
-        };
+        }
 
         return message.channel.send(stringToBinary(args.join(' ')));
     },

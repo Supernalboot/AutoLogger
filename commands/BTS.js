@@ -1,9 +1,14 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 module.exports = {
     name: 'BTS',
     info: 'Binary To String',
     desc: 'turns Binary code to String format',
     aliases: ['bts'],
-    usage: '',
+    usage: [''],
     args: true,
     guildOnly: false,
     ownerOnly: false,

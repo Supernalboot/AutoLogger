@@ -1,18 +1,24 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 const Discord = require('discord.js');
+const read = require("../functions/databaseRead");
 
 module.exports = async (client, channel) => {
 
 	// Get guild variable
 	const guild = channel.guild;
 
+	// Collect our Doc.
+	const doc = await read(guild.id, 'sekure_servers', undefined, client);
+
 	// Check if guild has enabled this module
-	let enabled;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('channelcreate').then(async function(output) { if (output[0]) enabled = await output[0].channelcreate; });
-	if (!enabled) return;
+	if (doc.modules.channelCreate == false) return;
 
 	// Grab log channel
-	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('serverlogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].serverlogid); });
+	const logChannel = doc.channels.serverLogID;
 	if (!logChannel) return;
 
 	// Fetch latest audit, to make sure we will fetch this specific task
@@ -24,7 +30,7 @@ module.exports = async (client, channel) => {
 	if (!entry.executor.bot) bot = '';
 
 	// Fill out embed information
-	const embed = await new Discord.RichEmbed()
+	const embed = await new Discord.MessageEmbed()
 		.setTitle('**Channel Created**')
 		.addField('Channel', `${channel}\n\`${channel.id}\``, true)
 		.addField('Channel Type', `\`${channel.type}\``, true)

@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 module.exports = async (client) => {
 	client.user.setPresence({ game: { name: 'with the restart switch!' }, status: 'dnd' });
 	console.log(`INFO) ${client.user.tag} is ready to serve ${client.guilds.size} guilds and ${client.users.size} users!`);

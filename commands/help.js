@@ -1,3 +1,8 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 module.exports = {
 	name: 'help',
 	args: false,
@@ -23,7 +28,7 @@ module.exports = {
 			serverCommands = commands.filter(command => command.group === 'server').map(command => `\`${command.name}\``).join(', ');
 			cryptoCommands = commands.filter(command => command.group === 'crypto').map(command => `\`${command.name}\``).join(', ');
 			if (owners.includes(message.author.id)) {
-				ownerCommands = commands.filter(command => command.group === 'owner').map(command => `\`${command.name}\``).join(', ');
+				constownerCommands = commands.filter(command => command.group === 'owner').map(command => `\`${command.name}\``).join(', ');
 			}
 			// Send DM message
 			let helpEmbed;

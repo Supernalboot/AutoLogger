@@ -1,18 +1,24 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 const Discord = require('discord.js');
+const read = require("../functions/databaseRead");
 
 module.exports = async (client, message) => {
 
 	// Get guild variable
 	const guild = message.guild;
 
+	// Collect our Doc.
+	const doc = await read(guild.id, 'sekure_servers', undefined, client);
+
 	// Check if guild has enabled this module
-	let enabled;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('messagedelete').then(async function(output) { if (output[0]) enabled = await output[0].messagedelete; });
-	if (!enabled) return;
+	if (doc.modules.messageDelete == false) return;
 
 	// Grab log channel
-	let logChannel;
-	await client.knex.from('guilddata').where('guildid', guild.id).select('messagelogid').then(async function(output) { if (output[0]) logChannel = await guild.channels.get(output[0].messagelogid); });
+	const logChannel = doc.channels.messageLogID;
 	if (!logChannel) return;
 
 	// Return any bots changing messages to reduce spam

@@ -1,9 +1,14 @@
+/*
+ *   Copyright (c) 2020 Dimitri Lambrou
+ *   All rights reserved.
+ *   Unauthorized copying of this file, via any medium is strictly prohibited. Proprietary and confidential
+ */
 module.exports = {
 	name: 'addRole',
 	info: 'Give a Role',
 	desc: 'Gives a mentioned user a role',
 	aliases: ['AR', 'ar'],
-	usage: '',
+	usage: [''],
 	args: true,
 	guildOnly: true,
 	ownerOnly: false,
