@@ -9,6 +9,6 @@ module.exports = {
     script: 'log.js',
     watch: true,
     ignore_watch: ['.git'],
+    env: { NODE_ENV: "server" },
   }],
-  env: { NODE_ENV: "server" },
 };
